@@ -1,0 +1,19 @@
+
+.my-custom-class {
+    --background: #222 !important;
+    --spinner-color: #fff !important;
+  
+    color: #fff !important;
+  }
+  .title{
+    display: flex;
+    background-color: #ddd;
+    justify-content: space-between;
+  }
+  .title ion-label, ion-icon{
+    font-size: 22px;
+    padding: 10px;
+  }
+  .item span{
+    font-size: 18px;
+  }

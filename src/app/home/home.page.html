@@ -1,0 +1,273 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Início</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslise para baixo para atualizar"
+      refreshingSpinner="circles" refreshingText="Atualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="blocks">
+
+    <div class="promocao">
+      <div class="titulo-promo">
+        <label>INDIQUE UM AMIGO AQUI</label>
+
+      </div>
+      <img width="250" src="../../assets/imgs/indicou.png">
+      <ion-button color="tertiary" (click)="indicarAmigo()" expand="block">INDIQUE AQUI</ion-button>
+    </div>
+
+
+    <ion-accordion-group class="indicacao">
+      <ion-accordion value="first" (click)="getIndicados()">
+        <ion-item slot="header" color="light">
+          <ion-label>Minhas Indicações</ion-label>
+        </ion-item>
+        <div slot="content">
+
+          <div class="indicados">
+            <div class="nomeIndicado">
+              <ion-label>Nome</ion-label>
+            </div>
+            <div class="porcentagem">
+              <ion-label>Desconto</ion-label>
+
+            </div>
+            <div class="porcentagem">
+              <ion-label>Status</ion-label>
+
+            </div>
+          </div>
+
+          <div class="dados" *ngFor="let indicado of listaIndicados | slice: 0:5; let i = index">
+            <div class="dadoNome">
+              <ion-label>{{indicado.nome_cli}}</ion-label>
+            </div>
+            <div class="dadoPorcentagem">
+              <ion-label>{{indicado.cli_ind_desconto}}%</ion-label>
+
+               </div>
+               
+                <div class="dadoPorcentagem" *ngIf="indicado.cli_ind_valida === '1'">
+                  <ion-label style="color:blue">Ativo</ion-label>
+                
+
+                </div>
+                <div class="dadoPorcentagem" *ngIf="indicado.cli_ind_valida === '0'">
+                  <ion-label style="color:red">Inativo</ion-label>
+
+                </div>
+
+            </div>
+
+          </div>
+
+        </ion-accordion>
+      </ion-accordion-group>
+
+  
+      <ion-accordion-group>
+        <ion-accordion value="first">
+          <ion-item slot="header" color="light">
+            <ion-label>Minhas Locações</ion-label>
+          </ion-item>
+          <div slot="content">
+                <ion-row>
+                  <ion-col>Contrato</ion-col>
+                  <ion-col>Data</ion-col>
+                  <ion-col>Carro</ion-col>
+                  <ion-col>Diária</ion-col>
+
+                </ion-row>
+                <div>
+                
+                  <ion-row *ngFor="let locacao of listaLocacoes | slice: 0:5; let i = index">
+                    <div class="linha">{{ locacao.id_Loc }}</div>
+                    <div class="linha">{{ locacao.dataLoc}}</div>
+                    <div class="linha">{{ locacao.modelo_car }} - {{ locacao.placa_car }}</div>
+                    <div class="linha">{{ locacao.valorLocado }}</div>
+                  </ion-row>
+                </div>
+
+       
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+    <ion-accordion-group>
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-label>Minhas Reservas</ion-label>
+        </ion-item>
+        <div slot="content">
+          <ion-row>
+            <ion-col>Categoria</ion-col>
+            <ion-col>Data</ion-col>
+            <ion-col>Grupo</ion-col>
+            <ion-col>Detalhes</ion-col>
+            <ion-col>Deletar</ion-col>
+
+
+          </ion-row>
+          <div>
+
+            <ion-row class="reserr" *ngFor=" let reserva of locacoesReservadas | slice: 0:5; let i = index">
+              <ion-col class="reser">{{ reserva.categoria }}</ion-col>
+              <ion-col class="reser">{{ reserva.data_retirada | date: "dd/MM/yyyy" }}</ion-col>
+              <ion-col class="reser">{{ reserva.nome_grupo_car}}</ion-col>
+              <ion-col class="reser"><ion-icon (click)="detalheLocacao(reserva)" name="search"></ion-icon></ion-col>
+              <ion-col class="reser"><ion-icon *ngIf="reserva.status === 'pendente'"
+                  (click)="cancelarLocacao(reserva.id_reserva)" name="close-outline"></ion-icon></ion-col>
+            </ion-row>
+          </div>
+        </div>
+        </ion-accordion>
+      </ion-accordion-group>
+
+
+      <ion-accordion-group>
+        <ion-accordion value="first">
+          <ion-item slot="header" color="light">
+            <ion-label>Reservas KL Freedom</ion-label>
+          </ion-item>
+          <div slot="content">
+                <ion-row>
+                  <ion-col>Carro</ion-col>
+                  <ion-col>R$</ion-col>
+                  <ion-col>Status</ion-col>
+
+
+                </ion-row>
+                <div>
+                
+                  <ion-row *ngFor=" let reserva of listaFreedom">
+                    <ion-col class="reser">{{reserva.modelo_car_klfree.split(' ').shift()}}</ion-col>
+                    <ion-col class="reser">{{reserva.calculo | currency:'BRL':'symbol':'0.2-2':'pt'}}</ion-col>
+                    <ion-col class="reser" *ngIf="reserva.status_res_klfree == 0" style="color:blue">ABERTO</ion-col>
+                    <ion-col class="reser" *ngIf="reserva.status_res_klfree == 1" style="color:red">CANCELADO</ion-col>
+                    <ion-col class="reser" *ngIf="reserva.status_res_klfree == 5" style="color: #228662">APROVADO</ion-col>
+                    <ion-col class="reser" *ngIf="reserva.status_res_klfree == 3" style="color:red">REPROVADO</ion-col>
+                    <ion-col class="reser" *ngIf="reserva.status_res_klfree == 4" style="color:blue">EM ANÁLISE</ion-col>
+                  </ion-row>
+                </div>
+
+          
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+    <ion-accordion-group>
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-label>Meus Boletos Em Aberto</ion-label>
+        </ion-item>
+        <div slot="content">
+          <ion-row>
+            <ion-col>Vencimento</ion-col>
+            <ion-col>Obs</ion-col>
+            <ion-col>Valor</ion-col>
+            <ion-col>action</ion-col>
+
+          </ion-row>
+          <div>
+
+            <ion-row class="reserr" *ngFor=" let boleto of listaBoletos | slice: 0:5; let i = index">
+              <ion-col class="reser">{{ boleto.vencimento | date: "dd/MM/yyyy" }}</ion-col>
+              <ion-col class="reser">{{ boleto.descricao }}</ion-col>
+              <ion-col class="reser">{{ boleto.valorf }}</ion-col>
+              <ion-col class="reser" ><a target="_blank" *ngIf="boleto.hoje>boleto.vencimento"
+                  href="https://wa.me/5592984008890"><ion-icon name='logo-whatsapp'></ion-icon>
+                  </a>
+                  <ion-icon *ngIf="boleto.vencimento>=boleto.hoje"
+                  (click)="copyData(boleto.linha)" name="copy-outline"></ion-icon>
+                </ion-col>
+
+            </ion-row>
+          </div>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+    <ion-accordion-group>
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-label>Últimos Serviços</ion-label>
+        </ion-item>
+        <div slot="content">
+          <ion-row>
+            <ion-col>Locação</ion-col>
+            <ion-col>Carro</ion-col>
+            <ion-col>Data</ion-col>
+            <ion-col>Visualizar</ion-col>
+            <ion-col>Cancelar</ion-col>
+
+
+          </ion-row>
+          <div>
+
+            <ion-row *ngFor="let servico of servicosAgendados | slice: 0:5; let i = index">
+              <ion-col class="reser">{{servico.id_locacao_agen}}</ion-col>
+              <ion-col class="reser">{{ servico.placa_car }} </ion-col>
+              <ion-col class="reser">{{ servico.data_agendamento | date: "dd/MM/yyyy" }}</ion-col>
+              <ion-col class="reser">
+
+
+                <ion-icon name="search" (click)="detalheServico(servico)"></ion-icon>
+
+              </ion-col>
+              <ion-col class="reser"><ion-icon *ngIf="servico.status_agen_serv!=='cancelado'"
+                  (click)="cancelarServico(servico.id_agen_ser)" name="trash-outline"></ion-icon>
+                <font *ngIf="servico.status_agen_serv==='cancelado'" style="color:red">Cancelado</font>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+    <ion-accordion-group>
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-label>Pagamentos Realizados</ion-label>
+        </ion-item>
+        <div slot="content">
+          <ion-row>
+            <ion-col>Pedido</ion-col>
+            <ion-col>Data</ion-col>
+            <ion-col>Valor</ion-col>
+            <ion-col>Status</ion-col>
+
+
+          </ion-row>
+          <div>
+
+            <ion-row *ngFor="let lista of listaPagamento | slice: 0:50 let i = index">
+              <ion-col class="reser">{{ lista.id_ped_am }}</ion-col>
+              <ion-col class="reser">{{ lista.data_ped_am | date: "dd/MM/yyyy" }}</ion-col>
+              <ion-col class="reser">{{lista.total_pago | currency: "BRL":true:"1.2-2" }}</ion-col>
+              <ion-col class="reser" style="color: green">{{ lista.status_ped_am }}</ion-col>
+            </ion-row>
+          </div>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+  </div>
+
+  <!--<ion-slides pager="true" [options]="slideOpts">
+        <ion-slide *ngFor="let menu of listaMenu">
+            <div class="container ion-text-left">
+                <ion-icon [name]="menu.icon"></ion-icon>
+                <span>{{menu.text}}</span>
+            </div>
+        </ion-slide>
+    </ion-slides>-->
+</ion-content>

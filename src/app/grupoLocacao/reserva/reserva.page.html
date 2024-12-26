@@ -1,0 +1,183 @@
+<ion-header *ngIf="clienteLogado === true">
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button  defaultHref="Home"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Escolha</ion-title>
+    </ion-toolbar>
+
+    <div class="divToolbar" color="primary"><br>
+        <div class="nova">
+            <ion-segment color="success" value="all" scrollable="true" mode="ios" [(ngModel)]="segmentModel">
+      
+                <ion-segment-button value="tarifa" class="tarifa">
+                    <ion-icon name="car-sport-outline"></ion-icon>
+                    <div style="color: #000;">Convencional</div>
+                </ion-segment-button>
+                <ion-segment-button value="planos" class="planos">
+                    <ion-icon icon-only color="primary" name="star">%</ion-icon>
+                    <div style="color: #000;">Promocional</div>
+                </ion-segment-button>
+            </ion-segment>
+        </div>
+ 
+    </div>
+</ion-header>
+
+<br>
+
+<ion-header *ngIf="clienteDeslogado === false">
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/login"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="ion-text-center">Escolha</ion-title>
+    </ion-toolbar>
+    <div class="divToolbar">
+        <div class="nova">
+            <ion-segment value="all" scrollable="true" mode="ios" [(ngModel)]="segmentModel">
+                <ion-segment-button value="tarifa" class="tarifa">
+                    <ion-icon icon-only name="car-sport-outline"></ion-icon>
+                    <div style="color: #000; padding:10px;">Convencional</div>
+                </ion-segment-button>
+                <ion-segment-button value="planos" class="planos">
+                    <ion-icon icon-only color="primary" name="star"></ion-icon>
+                    <div style="color: #000;padding:10px;">Promocional</div>
+                </ion-segment-button>
+            </ion-segment>
+        </div>
+
+    </div>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="segmentModel === 'tarifa'">
+        <form novalidate>
+            <ion-card>
+
+                <ion-item [formGroup]="grupofb">
+                    <ion-icon size="large" name="location-outline" slot="start"></ion-icon>
+                    <ion-label position="floating">
+                        <h5>Local retirada</h5>
+                    </ion-label>
+                    <ion-select (ionChange)="diasInvalidos(loja.id_loj_esta)" [(ngModel)]="loja.id_loj_esta" formControlName="localRetirada" interface="action-sheet" placeholder="Escolha" cancelText="Cancelar">
+                        <ion-select-option style="font-family:Montserrat ;" *ngFor="let item of listaLoja" [value]="item.id_loj_esta"> {{item.nome_loj_esta}}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <!-- <ion-item>
+        Devolver no mesmo local
+        <ion-toggle [(ngModel)]="lojaDevolucao" name="lojaDevolucao" slot="end" color="primary" (ionChange)="mudarLojaDev($event)"></ion-toggle>
+      </ion-item>-->
+
+
+                <ion-item *ngIf="lojaDevolucao === false">
+                    <ion-icon size="large" name="location-outline" size="large" slot="icon-only" slot="start" ></ion-icon>
+                    <ion-label position="floating">
+                        <h6>Local devolução</h6>
+                    </ion-label>
+                    <ion-select [(ngModel)]="loja.id_loj_devolucao" name="id_loj_devolucao" [ngModelOptions]="{standalone: true}" interface="action-sheet" placeholder="Escolha" cancelText="Cancelar">
+                        <ion-select-option *ngFor="let l of listaLojaRet" [value]="l.id_loj_esta">{{ l.nome_loj_esta }}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-card>
+            <ion-card>
+
+                <ion-item [formGroup]="grupofb">
+                    <ion-icon  name="calendar-number-outline" size="large" slot="icon-only" slot="start"></ion-icon>
+                    <ion-label position="floating" style="font-family:Montserrat ;">Data da Retirada</ion-label>
+                    <ion-input readonly [(ngModel)]="dataFormatada" formControlName="dataRetirada" [liIonic4Datepicker]="datePickerObj" (ionChange)="verificarOnChangeHoras()">
+                    </ion-input>
+                </ion-item>
+
+                <ion-item [formGroup]="grupofb">
+                    <ion-icon name="calendar-number-outline" size="large" slot="icon-only" slot="start"></ion-icon>
+                    <ion-label position="floating" style="font-family:Montserrat ;">Data da devolução</ion-label>
+                    <ion-input readonly [(ngModel)]="dataFormatadaDev" formControlName="dataDevolucao" [liIonic4Datepicker]="datePickerDev" (ionChange)="calcularDias()">
+                    </ion-input>
+                </ion-item>
+
+                <ion-card class="bounceIn aparecimento gradual" *ngIf="cardHoras === true">
+                    <nav class="bg-light nav-car">
+                        <ion-icon color="primary" slot="icon-only" slot="start" name="time"></ion-icon> Horários Disponíveis
+                    </nav>
+
+                    <ion-item [formGroup]="grupofb">
+                        <ion-label style="font-family:Montserrat ;">Selecione</ion-label>
+                        <ion-select interface="action-sheet" [(ngModel)]="horaEscolhida" formControlName="horaRetirada">
+                            <ion-select-option *ngFor="let item of horasValues">{{item}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+
+                </ion-card>
+                <!--<input class="form-control" placeholder="Código Promocional">-->
+
+            </ion-card>
+            <ion-card *ngIf="totalDias > 0">
+                <ion-item lines="none">Total de dias: {{totalDias}}</ion-item>
+            </ion-card>
+            <!--[disabled]="!grupofb.valid"-->
+            <ion-button [disabled]="!grupofb.valid" (click)="continuar()" expand="block" color="primary">
+                CONTINUAR <ion-icon name="chevron-forward-outline"></ion-icon>
+            </ion-button>
+        </form>
+    </div>
+
+    <div *ngIf="segmentModel === 'planos'">
+        <form novalidate>
+            <ion-card>
+                <ion-list>
+                    <ion-radio-group [(ngModel)]="plano" name="plano">
+                        <ion-item *ngFor="let item of listaPlano " (click)="itemPlano(item)">
+                            <ion-label style="font-family:Montserrat ;">{{item.titulo_pla}}</ion-label>
+                            <ion-radio value="{{item.titulo_pla}}"></ion-radio>
+                        </ion-item>
+
+                    </ion-radio-group>
+                    <div class="ion-text-center" style="font-size: 1.2em;" *ngIf="idPlano > 0"> Total de dias: {{30}}</div>
+                </ion-list>
+            </ion-card>
+
+            <ion-card>
+                <ion-item [formGroup]="grupoPlano">
+                    <ion-icon name="location-outline" size="large" slot="icon-only" slot="start"></ion-icon>
+                    <ion-label position="floating" style="font-family:Montserrat ;"> Local da retirada</ion-label>
+                    <ion-select [(ngModel)]="loja.id_loj_esta" formControlName="localRetirada" interface="action-sheet" placeholder="Escolha" cancelText="Cancelar">
+                        <ion-select-option *ngFor="let item of listaLojaRet" [value]="item.id_loj_esta"> {{item.nome_loj_esta }}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+
+                <ion-item [formGroup]="grupoPlano">
+                    <ion-icon name="calendar-number-outline" size="large" slot="icon-only" slot="start"></ion-icon>
+                    <ion-label position="floating" style="font-family:Montserrat ;">Data da Retirada</ion-label>
+                    <ion-input readonly [(ngModel)]="dataFormatada" formControlName="dataRetirada" [liIonic4Datepicker]="datePickerObj" (ionChange)="verificarOnChangeHoras()">
+                    </ion-input>
+                </ion-item>
+
+
+
+
+                <ion-card class="bounceIn aparecimento gradual" *ngIf="cardHoras === true">
+                    <nav class="bg-light nav-car">
+                        <ion-icon color="primary" slot="icon-only" slot="start" name="time"></ion-icon> Horários Disponíveis
+                    </nav>
+                    <ion-item [formGroup]="grupoPlano">
+                        <ion-label>Selecione</ion-label>
+                        <ion-select interface="action-sheet" [(ngModel)]="horaEscolhida" formControlName="horaRetirada">
+                            <ion-select-option *ngFor="let item of horasValues">{{item}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-card>
+
+
+            </ion-card>
+            <!--[disabled]="!grupoPlano.valid"-->
+            <ion-button (click)="continuarPlano()" [disabled]="!grupoPlano.valid" expand="block" color="primary">
+                CONTINUAR <ion-icon name="chevron-forward-outline"></ion-icon>
+            </ion-button>
+            <p></p>
+        </form>
+    </div>
+</ion-content>

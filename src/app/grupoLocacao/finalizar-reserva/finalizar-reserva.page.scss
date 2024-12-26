@@ -1,0 +1,50 @@
+ion-card-header {
+  font-size: 1.5em;
+  color: black;
+}
+
+ion-card-content {
+  font-size: 1.5em;
+  color: blue;
+}
+
+.formatacao {
+  color: #000;
+  font-size: 1.2em;
+  padding-left: 10px;
+}
+.sepador {
+  border-bottom: 1px solid #ddd;
+}
+.deslogado {
+  display: none;
+}
+.ative {
+  display: block;
+  background-color: red;
+}
+
+.btn-card {
+  width: 95%;
+}
+.img-avatar {
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ajuste {
+  margin: 5px 10px 0 10px;
+}
+
+.div-tempo {
+  font: 12px arial, sans-serif;
+}
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}

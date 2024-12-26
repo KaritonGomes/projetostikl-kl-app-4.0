@@ -1,0 +1,28 @@
+<ion-content>
+   <!-- <gl-background-video src="assets/video/newvideo.mp4"></gl-background-video>-->
+    <div class="page-centered-element">
+        <div class="content">
+            <img src="../../assets/imgs/kll.png" width="60%">
+            <h1>Bem-vindo</h1>
+            <div class="fullscreen-bg" *ngIf="plataforma === 'ios' ">
+                <!--<video autoplay loop muted playsinline webkit-playsinline>
+                    <source src="assets/images/kl_video.mp4" type="video/mp4" />
+                </video>-->
+                <video webkit-playsinline playsinline autoplay muted loop>
+                    <source src='../../assets/video/newvideo.mp4' type='video/mp4'>     
+                </video>
+            </div>
+            <video webkit-playsinline playsinline autoplay loop src="assets/video/newvideo.mp4"></video>
+        </div>
+    </div>
+    <div class="back">
+        <div class="area1"></div>
+        <div class="area2">
+            <div class="area2Int"></div>
+            <div class="area2menus">
+                <ion-button fill="clear" (click)="reservar()">ALUGAR</ion-button>
+                <ion-button  fill="clear" (click)="entrar() " [enable]="!credenciais.valid">ENTRAR </ion-button>
+            </div>
+        </div>
+    </div>
+</ion-content>

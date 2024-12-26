@@ -1,0 +1,413 @@
+<ion-header *ngIf="tipo_pagamento === 'debito' ">
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="tabs/cartao/tipo-pagamento-fotos"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Pagamento</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-header *ngIf="tipo_pagamento === 'credito'">
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="tabs/cartao/tipo-pagamento-fotos"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Pagamento</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <h5 style="padding-left: 10px;">Dados da locação</h5>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-subtitle>
+                <b> Cliente:</b> &nbsp;<span class="cor">{{ cliente.nome }}</span
+            ></ion-card-subtitle
+          >
+          <div class="row">
+            <div class="col-sm col-6">
+              <ion-card-subtitle>
+                <b> Carro:</b> &nbsp;<span
+                  class="cor"
+                  *ngIf="dadosLocacao != undefined"
+                >
+                  {{ dadosLocacao.locacao.modelo_car }}</span
+                ></ion-card-subtitle
+              >
+            </div>
+            <div class="col-sm col-6">
+              <ion-card-subtitle
+                ><b>Placa</b>: &nbsp;
+                <span class="cor" *ngIf="dadosLocacao != undefined">
+                  {{ dadosLocacao.locacao.placa_car }}</span
+                ></ion-card-subtitle
+              >
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-sm col-6">
+              <ion-card-subtitle
+                ><div
+                  *ngIf="dadosLocacao != undefined && dadosLocacao.locacao.plano_locacao_id != null "
+                >
+                  <p>
+                    <b>Promoção:</b> &nbsp;
+                    <span class="cor"
+                      >{{ dadosLocacao.dados.info_plano.titulo_pla }}</span
+                    >
+                  </p>
+                </div></ion-card-subtitle
+              >
+            </div>
+            <div class="col-sm col-6">
+              <ion-card-subtitle
+                ><p>
+                  <b>Valor:</b> &nbsp;
+                  <span class="cor" *ngIf="dadosLocacao != undefined">
+                    R$ {{ dadosLocacao.locacao.valorLocado }}</span
+                  >
+                </p></ion-card-subtitle
+              >
+            </div>
+          </div>
+  
+          <fieldset>
+            <legend>
+              <span *ngIf=" dadosLocacao != undefined && dadosLocacao.dados.atraso_locacao != 0" >
+                <b> Locação atrasada</b>
+              </span>
+                <span *ngIf="dadosLocacao != undefined && dadosLocacao.dados.atraso_locacao == 0">
+                Locação em dia</span
+              >
+            </legend>
+  
+            <span *ngIf="dadosLocacao != undefined && dadosLocacao.dados.atraso_locacao != 0" >
+              {{ resultado.qtdDiasAtraso }} dias em locação atrasada
+            </span>
+                <div *ngIf="
+                dadosLocacao != undefined &&
+                dadosLocacao.locacao.plano_locacao_id != null &&
+                dadosLocacao.dados.atraso_locacao != 0
+              ">
+                    <p style="color: red;">
+                        Locação em atraso. A partir de agora, diária será cobrada em tarifa cheia: {{ dadosLocacao.locacao.carroDiaria }} + Seguro {{ dadosLocacao.locacao.seguro_valor }}
+                    </p>
+                </div>
+                <div *ngIf="
+                dadosLocacao != undefined &&
+                dadosLocacao.locacao.plano_locacao_id != null &&
+                dadosLocacao.dados.atraso_locacao == 0
+              ">
+                    <p style="color: green;">
+                        Locação promocional: {{ dadosLocacao.locacao.valorLocado }}
+                    </p>
+                </div>
+                <div *ngIf="
+                dadosLocacao != undefined &&
+                dadosLocacao.locacao.plano_locacao_id == null
+              ">
+                    <p style="color: #ffc300;">
+                        <b>
+                  Tarifa cheia: {{ dadosLocacao.locacao.carroDiaria }} + Seguro {{
+                  dadosLocacao.locacao.seguro_valor }}</b
+                >
+              </p>
+            </div>
+          </fieldset>
+        </ion-card-header>
+      </ion-card>
+  
+  
+      <!--more info-->
+     
+ 
+        <ion-card *ngIf="tipoPlano === 'pf' ">
+          <ion-card-header>  <h5 style="padding-left: 10px;">Quantos dias deseja pagar ?</h5></ion-card-header>
+          <ion-row>
+            <ion-col>
+              <ion-item id="page-select6" class="ion-no-padding">
+                <ion-label color="dark"> <b>Dias</b></ion-label>
+                        <ion-select class="selector" [(ngModel)]="pagamento.qtd_dia_normal" [ngModelOptions]="{standalone: true}" (ionChange)="calcularPagamento(pagamento.qtd_dia_normal)">
+                            <ion-select-option *ngFor="let dia_normal of listaDiasNormais">{{dia_normal}}</ion-select-option>
+                        </ion-select>
+                        </ion-item>
+                        </ion-col>
+                        </ion-row>
+    </ion-card>
+
+
+    <h5 style="padding-left: 10px;">Informações de valores</h5>
+    <ion-card class=" round ion-margin-top">
+        <div padding>
+            <span *ngIf="dadosLocacao != undefined && dadosLocacao.locacao.plano_locacao_id != null">
+            Seu contrato é promoção
+            <b>{{ dadosLocacao.dados.info_plano.titulo_pla }}</b> portanto você
+            deverá pagar no minino de <b>{{numero_dias}} dias</b>, sendo esses
+            dias:<br />
+            <span *ngIf="resultado.qtdDiasNormal > 0">
+              <br />
+              <b style="color: green;">
+                {{resultado.qtdDiasNormal}} X R$ {{resultado.diaria_normal}}
+                {{resultado.valor_dias_normal | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </b>
+              <b>no valor contratado</b><br />
+            </span>
+            <span *ngIf="resultado.qtdDiasAtraso > 0">
+              <br />
+              <b style="color: red;">
+                {{resultado.qtdDiasAtraso}} X R$ {{resultado.diaria_atraso}} R$
+                {{resultado.valor_dias_atraso}}
+              </b>
+              <b>em diarias de locação atrasada</b>
+            </span>
+            </span>
+            <span *ngIf="dadosLocacao != undefined && dadosLocacao.locacao.plano_locacao_id == null" rigth>
+            Valor Total:&nbsp; <b>R$ {{ resultado.valor_total_formato }}</b>
+          </span>
+        </div>
+        <div *ngIf="resultado.valor_condutor > 0">
+            <div class="form-bottom condutor" *ngIf="dadosLocacao != undefined && dadosLocacao.locacao.plano_locacao_id != null">
+                <span>Condutor adicional:&nbsp; <b>R$ {{ resultado.valor_condutor }}</b>
+            </span>
+            </div>
+        </div>
+        <div *ngIf="resultado.desconto > 0">
+            <div *ngIf="dadosLocacao != undefined && dadosLocacao.locacao.plano_locacao_id != null">
+                <span class="resultado-desconto">Desconto:&nbsp; <b>R$ {{ resultado.desconto }}</b> </span>
+            </div>
+        </div>
+
+        <div *ngIf="dadosLocacao != undefined && dadosLocacao.locacao.plano_locacao_id != null">
+            <span class="resultado-desconto">Valor Total:&nbsp; <b>R$ {{ resultado.valor_total_formato }}</b>
+          </span>
+        </div>
+    </ion-card>
+
+    <!---------------------------------------------Debito----------------------------------------------------------------------->
+    <div class="card round card-cartao" *ngIf="tipo_pagamento === 'debito' ">
+
+        <form #form="ngForm" novalidate>
+            <div class="ion-margin-top ion-margin-bottom ">
+                <div>
+                    <div class="file">
+                        <div class="file-texto">Anexar comprovante de depósito</div>
+                        <input (change)="handleInputChange($event)" type="file" name="selectedFile" id="selectedFile" />
+                    </div>
+
+                    <div class="file">
+                        <div>Número da transação</div>
+                        <input type="text" [(ngModel)]="pagamento.numero_transacao" name="numero_transacao" id="numero_transacao" class="form-control" />
+                    </div>
+                    <div class="file">
+                        <div>Valor depositado</div>
+                        <input [(ngModel)]="pagamento.valor_depositado" name="valor_depositado" id="valor_depositado" class="form-control" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }" />
+                    </div>
+
+
+                    <h5 ion-text color="primary" class="bold">Assinaturas</h5>
+                    <div>
+                        <ion-radio-group radio-group [(ngModel)]="tipo" name="tipo" id="tipo" (ionChange)="buscarAssinatura()">
+                            <div class="row">
+                                <div class="col-6">
+                                    <ion-label><b>Locatário</b> &nbsp;</ion-label>
+                                    <ion-radio mode="md" item-left value="cliente" checked="true"></ion-radio>
+                                </div>
+                                <div class="col-6" *ngIf="id_condutor > 0 ">
+                                    <ion-label><b>Condutor</b> &nbsp;</ion-label>
+                                    <ion-radio mode="md" item-left value="condutor"></ion-radio>
+                                </div>
+                            </div>
+                        </ion-radio-group>
+                    </div>
+                    <!--vERIFICA IMAGEM-->
+                    <div class="card round centro">
+                        <div *ngIf="verifica_img === false">
+                            <img src="{{image_assinatura || ''}}" />
+                        </div>
+
+                        <div *ngIf="image_assinatura != null">
+                            <h5 ion-text color="primary" class="bold text-center"><b>Essa é sua assinatura?</b></h5>
+                            <ion-radio-group radio-group [(ngModel)]="tipoimg_assinatura" name="tipoimg_assinatura" id="tipoimg_assinatura" (ionChange)="verificarAssinatura()">
+                                <div class="row text-center">
+                                    <div class="col-6">
+                                        <ion-label><b>Sim</b> &nbsp;</ion-label>
+                                        <ion-radio mode="md" item-left value="sim" checked="true"></ion-radio>
+                                    </div>
+                                    <div class="col-6">
+                                        <ion-label><b>Não</b> &nbsp;</ion-label>
+                                        <ion-radio mode="md" item-left value="nao"></ion-radio>
+                                    </div>
+                                </div>
+                            </ion-radio-group>
+                            <div *ngIf="tipoimg_assinatura === 'nao' ">
+                                <img [src]="image|| ''" />
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="text-center" *ngIf="tipoimg_assinatura === 'nao' ">
+                            <ion-button color="primary" (click)="assinaturaCliente()">
+                                <span>Clique aqui para assinar</span>
+
+                            </ion-button>
+                        </div>
+
+
+                    </div>
+                    <!--vERIFICA IMAGEM-->
+
+                    <!-- <ion-button expand="block" color="dark" (click)="salvarAssinatura()">teste</ion-button>-->
+
+                    <div *ngIf="desabilitarButao === false">
+                        <ion-button type="submit" expand="block" color="primary" (click)="realizarPagamentoDebito()">
+                            Enviar
+                        </ion-button>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </form>
+    </div>
+    <!------------------------------------------------Credito------------------------------------------------------------------->
+    <div class="card card round card-cartao" *ngIf="tipo_pagamento === 'credito'">
+        <form #form="ngForm" novalidate>
+            <div>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col class="ion-no-padding ion-text-center">
+                            <img [ngClass]="(card.cardType != null) ? (card.cardType.toUpperCase() != 'VISA' ) ? 'no-brand' : '' : ''" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCA0OCA0OCIgdmVyc2lvbj0iMS4xIiB3aWR0aD0iMzJweCIgaGVpZ2h0PSIzMnB4Ij48ZyBpZD0ic3VyZmFjZTEiPjxwYXRoIHN0eWxlPSIgZmlsbDojMTU2NUMwOyIgZD0iTSA0NSAzNSBDIDQ1IDM3LjIxMDkzOCA0My4yMTA5MzggMzkgNDEgMzkgTCA3IDM5IEMgNC43ODkwNjMgMzkgMyAzNy4yMTA5MzggMyAzNSBMIDMgMTMgQyAzIDEwLjc4OTA2MyA0Ljc4OTA2MyA5IDcgOSBMIDQxIDkgQyA0My4yMTA5MzggOSA0NSAxMC43ODkwNjMgNDUgMTMgWiAiLz48cGF0aCBzdHlsZT0iIGZpbGw6I0ZGRkZGRjsiIGQ9Ik0gMTUuMTg3NSAxOSBMIDEyLjU1ODU5NCAyNi44MzIwMzEgQyAxMi41NTg1OTQgMjYuODMyMDMxIDExLjg5NDUzMSAyMy41MTk1MzEgMTEuODI4MTI1IDIzLjEwMTU2MyBDIDEwLjMzMjAzMSAxOS42OTE0MDYgOC4xMjUgMTkuODgyODEzIDguMTI1IDE5Ljg4MjgxMyBMIDEwLjcyNjU2MyAzMCBMIDEwLjcyNjU2MyAyOS45OTYwOTQgTCAxMy44ODY3MTkgMjkuOTk2MDk0IEwgMTguMjU3ODEzIDE5IFogIi8+PHBhdGggc3R5bGU9IiBmaWxsOiNGRkZGRkY7IiBkPSJNIDE3LjY4NzUgMzAgTCAyMC41NTg1OTQgMzAgTCAyMi4yOTY4NzUgMTkgTCAxOS4zOTA2MjUgMTkgWiAiLz48cGF0aCBzdHlsZT0iIGZpbGw6I0ZGRkZGRjsiIGQ9Ik0gMzguMDA3ODEzIDE5IEwgMzQuOTg4MjgxIDE5IEwgMzAuMjc3MzQ0IDMwIEwgMzMuMTI4OTA2IDMwIEwgMzMuNzE4NzUgMjguNDI5Njg4IEwgMzcuMzEyNSAyOC40Mjk2ODggTCAzNy42MTcxODggMzAgTCA0MC4yMzA0NjkgMzAgWiBNIDM0LjUxMTcxOSAyNi4zMjgxMjUgTCAzNi4wNzQyMTkgMjIuMTcxODc1IEwgMzYuODk0NTMxIDI2LjMyODEyNSBaICIvPjxwYXRoIHN0eWxlPSIgZmlsbDojRkZGRkZGOyIgZD0iTSAyNi4zNjcxODggMjIuMjA3MDMxIEMgMjYuMzY3MTg4IDIxLjYwMTU2MyAyNi44NjcxODggMjEuMTQ4NDM4IDI4LjI5Njg3NSAyMS4xNDg0MzggQyAyOS4yMjI2NTYgMjEuMTQ4NDM4IDMwLjI4NTE1NiAyMS44MjQyMTkgMzAuMjg1MTU2IDIxLjgyNDIxOSBMIDMwLjc1MzkwNiAxOS41MTU2MjUgQyAzMC43NTM5MDYgMTkuNTE1NjI1IDI5LjM5NDUzMSAxOSAyOC4wNjI1IDE5IEMgMjUuMDQyOTY5IDE5IDIzLjQ4NDM3NSAyMC40NDE0MDYgMjMuNDg0Mzc1IDIyLjI2OTUzMSBDIDIzLjQ4NDM3NSAyNS41NzgxMjUgMjcuNDY0ODQ0IDI1LjEyNSAyNy40NjQ4NDQgMjYuODIwMzEzIEMgMjcuNDY0ODQ0IDI3LjExMzI4MSAyNy4yMzQzNzUgMjcuNzg1MTU2IDI1LjU3NDIxOSAyNy43ODUxNTYgQyAyMy45MTQwNjMgMjcuNzg1MTU2IDIyLjgxNjQwNiAyNy4xNzU3ODEgMjIuODE2NDA2IDI3LjE3NTc4MSBMIDIyLjMyMDMxMyAyOS4zOTQ1MzEgQyAyMi4zMjAzMTMgMjkuMzk0NTMxIDIzLjM4NjcxOSAzMCAyNS40Mzc1IDMwIEMgMjcuNDk2MDk0IDMwIDMwLjM1NTQ2OSAyOC40NjA5MzggMzAuMzU1NDY5IDI2LjI0NjA5NCBDIDMwLjM1NTQ2OSAyMy41ODU5MzggMjYuMzY3MTg4IDIzLjM5NDUzMSAyNi4zNjcxODggMjIuMjA3MDMxIFogIi8+PHBhdGggc3R5bGU9IiBmaWxsOiNGRkMxMDc7IiBkPSJNIDEyLjIxMDkzOCAyNC45NDUzMTMgTCAxMS4yNDYwOTQgMjAuMTk1MzEzIEMgMTEuMjQ2MDk0IDIwLjE5NTMxMyAxMC44MDg1OTQgMTkuMTY3OTY5IDkuNjcxODc1IDE5LjE2Nzk2OSBDIDguNTM1MTU2IDE5LjE2Nzk2OSA1LjIzNDM3NSAxOS4xNjc5NjkgNS4yMzQzNzUgMTkuMTY3OTY5IEMgNS4yMzQzNzUgMTkuMTY3OTY5IDEwLjg5NDUzMSAyMC44Mzk4NDQgMTIuMjEwOTM4IDI0Ljk0NTMxMyBaICIvPjwvZz48L3N2Zz4="
+                                alt="Visa" />
+                            <img [ngClass]="(card.cardType != null) ? (card.cardType.toUpperCase() != 'MASTERCARD') ? 'no-brand' : '' : ''" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCA0OCA0OCIgdmVyc2lvbj0iMS4xIiB3aWR0aD0iMzJweCIgaGVpZ2h0PSIzMnB4Ij48ZyBpZD0ic3VyZmFjZTEiPjxwYXRoIHN0eWxlPSIgZmlsbDojM0Y1MUI1OyIgZD0iTSA0NSAzNSBDIDQ1IDM3LjIxMDkzOCA0My4yMTA5MzggMzkgNDEgMzkgTCA3IDM5IEMgNC43ODkwNjMgMzkgMyAzNy4yMTA5MzggMyAzNSBMIDMgMTMgQyAzIDEwLjc4OTA2MyA0Ljc4OTA2MyA5IDcgOSBMIDQxIDkgQyA0My4yMTA5MzggOSA0NSAxMC43ODkwNjMgNDUgMTMgWiAiLz48cGF0aCBzdHlsZT0iIGZpbGw6I0ZGQzEwNzsiIGQ9Ik0gNDAgMjQgQyA0MCAyOS41MjM0MzggMzUuNTIzNDM4IDM0IDMwIDM0IEMgMjQuNDc2NTYzIDM0IDIwIDI5LjUyMzQzOCAyMCAyNCBDIDIwIDE4LjQ3NjU2MyAyNC40NzY1NjMgMTQgMzAgMTQgQyAzNS41MjM0MzggMTQgNDAgMTguNDc2NTYzIDQwIDI0IFogIi8+PHBhdGggc3R5bGU9IiBmaWxsOiNGRjNEMDA7IiBkPSJNIDIyLjAxNTYyNSAzMCBDIDIxLjU1MDc4MSAyOS4zODI4MTMgMjEuMTUyMzQ0IDI4LjcxNDg0NCAyMC44Mzk4NDQgMjggTCAyNi4xNjQwNjMgMjggQyAyNi40NDE0MDYgMjcuMzYzMjgxIDI2LjY2MDE1NiAyNi42OTUzMTMgMjYuODAwNzgxIDI2IEwgMjAuMjAzMTI1IDI2IEMgMjAuMDcwMzEzIDI1LjM1NTQ2OSAyMCAyNC42ODc1IDIwIDI0IEwgMjcgMjQgQyAyNyAyMy4zMTI1IDI2LjkyOTY4OCAyMi42NDQ1MzEgMjYuODAwNzgxIDIyIEwgMjAuMTk5MjE5IDIyIEMgMjAuMzQzNzUgMjEuMzA0Njg4IDIwLjU1ODU5NCAyMC42MzY3MTkgMjAuODM5ODQ0IDIwIEwgMjYuMTY0MDYzIDIwIEMgMjUuODUxNTYzIDE5LjI4NTE1NiAyNS40NTMxMjUgMTguNjE3MTg4IDI0Ljk4ODI4MSAxOCBMIDIyLjAxNTYyNSAxOCBDIDIyLjQ0OTIxOSAxNy40MjE4NzUgMjIuOTQ1MzEzIDE2Ljg3ODkwNiAyMy40OTYwOTQgMTYuNDA2MjUgQyAyMS43NDYwOTQgMTQuOTEwMTU2IDE5LjQ4MDQ2OSAxNCAxNyAxNCBDIDExLjQ3NjU2MyAxNCA3IDE4LjQ3NjU2MyA3IDI0IEMgNyAyOS41MjM0MzggMTEuNDc2NTYzIDM0IDE3IDM0IEMgMjAuMjY5NTMxIDM0IDIzLjE2MDE1NiAzMi40MjU3ODEgMjQuOTg0Mzc1IDMwIFogIi8+PC9nPjwvc3ZnPg=="
+                                alt="mastercard">
+                            <img [ngClass]="(card.cardType != null) ? (card.cardType.toUpperCase() != 'ELO') ? 'no-brand' : '' : ''" src="assets/imgs/elo-logo.png" alt="Elo">
+                            <img [ngClass]="(card.cardType != null) ? (card.cardType.toUpperCase() != 'AMEX') ? 'no-brand' : '' : ''" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyNTIgMjUyIiB3aWR0aD0iMzJweCIgaGVpZ2h0PSIzMnB4Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2UtZGFzaGFycmF5PSIiIHN0cm9rZS1kYXNob2Zmc2V0PSIwIiBmb250LWZhbWlseT0ibm9uZSIgZm9udC13ZWlnaHQ9Im5vbmUiIGZvbnQtc2l6ZT0ibm9uZSIgdGV4dC1hbmNob3I9Im5vbmUiIHN0eWxlPSJtaXgtYmxlbmQtbW9kZTogbm9ybWFsIj48cGF0aCBkPSJNMCwyNTJ2LTI1MmgyNTJ2MjUyeiIgZmlsbD0ibm9uZSIvPjxnPjxnIGlkPSJzdXJmYWNlMSI+PHBhdGggZD0iTTIzNi4yNSwxODMuNzVjMCwxMS42MDc0MiAtOS4zOTI1OCwyMSAtMjEsMjFoLTE3OC41Yy0xMS42MDc0MiwwIC0yMSwtOS4zOTI1OCAtMjEsLTIxdi0xMTUuNWMwLC0xMS42MDc0MiA5LjM5MjU4LC0yMSAyMSwtMjFoMTc4LjVjMTEuNjA3NDIsMCAyMSw5LjM5MjU4IDIxLDIxeiIgZmlsbD0iIzE2YTA4NSIvPjxwYXRoIGQ9Ik0xMTYuODMzMDEsMTA1bC0xMS4wOTQ3MywyNC41ODg4N2wtMTEuMDMzMiwtMjQuNTg4ODdoLTE0LjE1MDM5djM1LjMxNDQ2bC0xNS43NzA1MSwtMzUuMzE0NDZoLTExLjkzNTU1bC0xNi4wOTg2MywzNi42NDc0Nmg5LjUzNjEzbDMuNTA2ODQsLTguMTgyNjJoMTguMDI2MzdsMy41ODg4Nyw4LjE4MjYyaDE4LjE5MDQzdi0yNy4yMTM4N2wxMi4wNTg1OSwyNy4yMTM4N2g4LjIwMzEzbDEyLjM0NTcxLC0yNi43NDIxOXYyNi43NDIxOWg5LjA0Mzk0di0zNi42NDc0NnpNNTMuMjE3NzcsMTI1LjU0ODgzbDUuMzczMDQsLTEyLjc5Njg3bDUuNTk4NjQsMTIuNzk2ODh6IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTE5OC44ODQ3NywxMjIuOTIzODNsMTYuMzY1MjMsLTE3LjgyMTI5aC0xMS42NDg0NGwtMTAuNDU4OTgsMTEuMzYxMzNsLTEwLjEzMDg2LC0xMS40NjM4N2gtMzYuMDExNzJ2MzYuNjQ3NDZoMzQuODQyNzdsMTAuOTcxNjgsLTEyLjEyMDEybDEwLjcwNTA4LDEyLjIyMjY2aDExLjYwNzQyek0xNzcuMDY0NDYsMTMzLjk1NzAzaC0yMS4wNDEwMnYtNy4yMzkyNmgyMC4xMzg2N3YtNi45NTIxNWgtMjAuMTM4Njd2LTYuODcwMTJsMjIuMjA5OTYsMC4wNjE1Mmw4LjkwMDM5LDkuOTY2OHoiIGZpbGw9IiNmZmZmZmYiLz48L2c+PC9nPjwvZz48L3N2Zz4="
+                                alt="Amex">
+                            <img [ngClass]="(card.cardType != null) ? (card.cardType.toUpperCase() != 'DISCOVER') ? 'no-brand' : '' : ''" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCA0OCA0OCIgdmVyc2lvbj0iMS4xIiB3aWR0aD0iMzJweCIgaGVpZ2h0PSIzMnB4Ij48ZyBpZD0ic3VyZmFjZTEiPjxwYXRoIHN0eWxlPSIgZmlsbDojRTFFN0VBOyIgZD0iTSA0NSAzNSBDIDQ1IDM3LjE5OTIxOSA0My4xOTkyMTkgMzkgNDEgMzkgTCA3IDM5IEMgNC44MDA3ODEgMzkgMyAzNy4xOTkyMTkgMyAzNSBMIDMgMTMgQyAzIDEwLjgwMDc4MSA0LjgwMDc4MSA5IDcgOSBMIDQxIDkgQyA0My4xOTkyMTkgOSA0NSAxMC44MDA3ODEgNDUgMTMgWiAiLz48cGF0aCBzdHlsZT0iIGZpbGw6I0ZGNkQwMDsiIGQ9Ik0gNDUgMzUgQyA0NSAzNy4xOTkyMTkgNDMuMTk5MjE5IDM5IDQxIDM5IEwgMTYgMzkgQyAxNiAzOSAzOS42MDE1NjMgMzUuMTk5MjE5IDQ1IDI0IFogTSAyMiAyNCBDIDIyIDI1LjY5OTIxOSAyMy4zMDA3ODEgMjcgMjUgMjcgQyAyNi42OTkyMTkgMjcgMjggMjUuNjk5MjE5IDI4IDI0IEMgMjggMjIuMzAwNzgxIDI2LjY5OTIxOSAyMSAyNSAyMSBDIDIzLjMwMDc4MSAyMSAyMiAyMi4zMDA3ODEgMjIgMjQgWiAiLz48cGF0aCBzdHlsZT0iICIgZD0iTSAxMS4xOTkyMTkgMjEgTCAxMi4zMDA3ODEgMjEgTCAxMi4zMDA3ODEgMjcgTCAxMS4xOTkyMTkgMjcgWiBNIDE3LjE5OTIxOSAyNCBDIDE3LjE5OTIxOSAyNS42OTkyMTkgMTguNSAyNyAyMC4xOTkyMTkgMjcgQyAyMC42OTkyMTkgMjcgMjEuMTAxNTYzIDI2Ljg5ODQzOCAyMS42MDE1NjMgMjYuNjk5MjE5IEwgMjEuNjAxNTYzIDI1LjM5ODQzOCBDIDIxLjE5OTIxOSAyNS44MDA3ODEgMjAuODAwNzgxIDI2IDIwLjE5OTIxOSAyNiBDIDE5LjEwMTU2MyAyNiAxOC4zMDA3ODEgMjUuMTk5MjE5IDE4LjMwMDc4MSAyNCBDIDE4LjMwMDc4MSAyMi44OTg0MzggMTkuMTAxNTYzIDIyIDIwLjE5OTIxOSAyMiBDIDIwLjY5OTIxOSAyMiAyMS4xMDE1NjMgMjIuMTk5MjE5IDIxLjYwMTU2MyAyMi42MDE1NjMgTCAyMS42MDE1NjMgMjEuMzAwNzgxIEMgMjEuMTAxNTYzIDIxLjEwMTU2MyAyMC42OTkyMTkgMjAuODk4NDM4IDIwLjE5OTIxOSAyMC44OTg0MzggQyAxOC41IDIxIDE3LjE5OTIxOSAyMi4zOTg0MzggMTcuMTk5MjE5IDI0IFogTSAzMC42MDE1NjMgMjQuODk4NDM4IEwgMjkgMjEgTCAyNy44MDA3ODEgMjEgTCAzMC4zMDA3ODEgMjcgTCAzMC44OTg0MzggMjcgTCAzMy4zOTg0MzggMjEgTCAzMi4xOTkyMTkgMjEgWiBNIDMzLjg5ODQzOCAyNyBMIDM3LjEwMTU2MyAyNyBMIDM3LjEwMTU2MyAyNiBMIDM1IDI2IEwgMzUgMjQuMzk4NDM4IEwgMzcgMjQuMzk4NDM4IEwgMzcgMjMuMzk4NDM4IEwgMzUgMjMuMzk4NDM4IEwgMzUgMjIgTCAzNy4xMDE1NjMgMjIgTCAzNy4xMDE1NjMgMjEgTCAzMy44OTg0MzggMjEgWiBNIDQxLjUgMjIuODAwNzgxIEMgNDEuNSAyMS42OTkyMTkgNDAuODAwNzgxIDIxIDM5LjUgMjEgTCAzNy44MDA3ODEgMjEgTCAzNy44MDA3ODEgMjcgTCAzOC44OTg0MzggMjcgTCAzOC44OTg0MzggMjQuNjAxNTYzIEwgMzkgMjQuNjAxNTYzIEwgNDAuNjAxNTYzIDI3IEwgNDIgMjcgTCA0MC4xOTkyMTkgMjQuNSBDIDQxIDI0LjMwMDc4MSA0MS41IDIzLjY5OTIxOSA0MS41IDIyLjgwMDc4MSBaIE0gMzkuMTk5MjE5IDIzLjgwMDc4MSBMIDM4Ljg5ODQzOCAyMy44MDA3ODEgTCAzOC44OTg0MzggMjIgTCAzOS4xOTkyMTkgMjIgQyAzOS44OTg0MzggMjIgNDAuMzAwNzgxIDIyLjMwMDc4MSA0MC4zMDA3ODEgMjIuODk4NDM4IEMgNDAuMzAwNzgxIDIzLjM5ODQzOCA0MCAyMy44MDA3ODEgMzkuMTk5MjE5IDIzLjgwMDc4MSBaIE0gNy42OTkyMTkgMjEgTCA2IDIxIEwgNiAyNyBMIDcuNjAxNTYzIDI3IEMgMTAuMTAxNTYzIDI3IDEwLjY5OTIxOSAyNC44OTg0MzggMTAuNjk5MjE5IDI0IEMgMTAuODAwNzgxIDIyLjE5OTIxOSA5LjUgMjEgNy42OTkyMTkgMjEgWiBNIDcuMzk4NDM4IDI2IEwgNy4xMDE1NjMgMjYgTCA3LjEwMTU2MyAyMiBMIDcuNSAyMiBDIDkgMjIgOS42MDE1NjMgMjMgOS42MDE1NjMgMjQgQyA5LjYwMTU2MyAyNC4zOTg0MzggOS41IDI2IDcuMzk4NDM4IDI2IFogTSAxNS4zMDA3ODEgMjMuMzAwNzgxIEMgMTQuNjAxNTYzIDIzIDE0LjM5ODQzOCAyMi44OTg0MzggMTQuMzk4NDM4IDIyLjYwMTU2MyBDIDE0LjM5ODQzOCAyMi4xOTkyMTkgMTQuODAwNzgxIDIyIDE1LjE5OTIxOSAyMiBDIDE1LjUgMjIgMTUuODAwNzgxIDIyLjEwMTU2MyAxNi4xMDE1NjMgMjIuNSBMIDE2LjY5OTIxOSAyMS42OTkyMTkgQyAxNi4xOTkyMTkgMjEuMTk5MjE5IDE1LjY5OTIxOSAyMSAxNSAyMSBDIDE0IDIxIDEzLjE5OTIxOSAyMS42OTkyMTkgMTMuMTk5MjE5IDIyLjY5OTIxOSBDIDEzLjE5OTIxOSAyMy41IDEzLjYwMTU2MyAyMy44OTg0MzggMTQuNjAxNTYzIDI0LjMwMDc4MSBDIDE1LjE5OTIxOSAyNC41IDE1LjY5OTIxOSAyNC42OTkyMTkgMTUuNjk5MjE5IDI1LjE5OTIxOSBDIDE1LjY5OTIxOSAyNS42OTkyMTkgMTUuMzAwNzgxIDI2IDE0LjgwMDc4MSAyNiBDIDE0LjMwMDc4MSAyNiAxMy44MDA3ODEgMjUuNjk5MjE5IDEzLjYwMTU2MyAyNS4xOTkyMTkgTCAxMi44OTg0MzggMjUuODk4NDM4IEMgMTMuMzk4NDM4IDI2LjY5OTIxOSAxNCAyNyAxNC44OTg0MzggMjcgQyAxNi4xMDE1NjMgMjcgMTYuODk4NDM4IDI2LjE5OTIxOSAxNi44OTg0MzggMjUuMTAxNTYzIEMgMTYuODk4NDM4IDI0LjE5OTIxOSAxNi41IDIzLjgwMDc4MSAxNS4zMDA3ODEgMjMuMzAwNzgxIFogIi8+PC9nPjwvc3ZnPg=="
+                                alt="discover">
+                            <img [ngClass]="(card.cardType != null) ? (card.cardType.toUpperCase() != 'DINERS') ? 'no-brand' : '' : ''" src="assets/imgs/dinners.jpg" alt="Dinners">
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col>
+                            <ion-item class="ion-no-padding">
+                                <!--(keyup)="checkBandeira()"-->
+                                <ion-input type="number" [(ngModel)]="card.cardNumber" name="cardNumber" id="cardNumber" placeholder="Nº do cartão" required>
+                                </ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item class="ion-no-padding">
+                                <ion-input type="text" [(ngModel)]="pagamento.holder_card" id="holder_card" name="holder_card" required placeholder="Nome completo(Titular do cartão)">
+                                </ion-input>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-4>
+                            <ion-select style="border: 1px solid #ddd !important" interface="action-sheet" class="selector" placeholder="Mês" class="max-width full-width" [(ngModel)]="card.expiryMonth" id="expiryMonth" name="expiryMonth" required>
+                                <ion-select-option value="01">01</ion-select-option>
+                                <ion-select-option value="02">02</ion-select-option>
+                                <ion-select-option value="03">03</ion-select-option>
+                                <ion-select-option value="04">04</ion-select-option>
+                                <ion-select-option value="05">05</ion-select-option>
+                                <ion-select-option value="06">06</ion-select-option>
+                                <ion-select-option value="07">07</ion-select-option>
+                                <ion-select-option value="08">08</ion-select-option>
+                                <ion-select-option value="09">09</ion-select-option>
+                                <ion-select-option value="10">10</ion-select-option>
+                                <ion-select-option value="11">11</ion-select-option>
+                                <ion-select-option value="12">12</ion-select-option>
+                            </ion-select>
+                        </ion-col>
+
+                        <ion-col col-4>
+                            <ion-select style="border: 1px solid #ddd !important" interface="action-sheet" placeholder="Ano" class="selector " class="max-width full-width" [(ngModel)]="card.expiryYear" [ngModelOptions]="{standalone: true}" id="expiryYear" name="expiryYear" required>
+                                <ion-select-option text-wrap *ngFor="let ano of lista_mes()" [value]="ano">{{ ano }}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-col>
+
+                        <ion-col col-4>
+                            <ion-input style="border: 1px solid #ddd !important" placeholder="CVV" [(ngModel)]="card.cvv" name="cvv" id="cvv" required></ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item style="border: 1px solid #ddd !important" class="ion-no-padding">
+                                <ion-label color="dark"><b>Parcelas</b></ion-label>
+                                <ion-select interface="action-sheet" class="selector" [(ngModel)]="pagamento.numero_parcelas" name="numero_parcelas" id="numero_parcelas" required>
+                                    <ion-select-option selected value="1">1</ion-select-option>
+                                    <ion-select-option value="2">2</ion-select-option>
+                                    <ion-select-option value="3">3</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+
+            <div>
+                <h5 ion-text color="primary" class="bold">Assinaturas</h5>
+                <ion-radio-group radio-group [(ngModel)]="tipo" name="tipo" id="tipo" (ionChange)="buscarAssinatura()">
+                    <div class="row">
+                        <div class="col-6">
+                            <ion-label><b>Locatário</b> &nbsp;</ion-label>
+                            <ion-radio mode="md" item-left value="cliente" checked="true"></ion-radio>
+                        </div>
+                        <div class="col-6" *ngIf="id_condutor > 0 ">
+                            <ion-label><b>Condutor</b> &nbsp;</ion-label>
+                            <ion-radio mode="md" item-left value="condutor"></ion-radio>
+                        </div>
+                    </div>
+                </ion-radio-group>
+            </div>
+            <div class="card round centro">
+                <div *ngIf="verifica_img === false">
+                    <img src="{{image_assinatura || ''}}" />
+                </div>
+
+                <div *ngIf="image_assinatura != null">
+                    <h5 ion-text color="primary" class="bold text-center"><b>Essa é sua assinatura?</b></h5>
+                    <ion-radio-group radio-group [(ngModel)]="tipoimg_assinatura" name="tipoimg_assinatura" id="tipoimg_assinatura" (ionChange)="verificarAssinatura()">
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <ion-label><b>Sim</b> &nbsp;</ion-label>
+                                <ion-radio mode="md" item-left value="sim" checked="true"></ion-radio>
+                            </div>
+                            <div class="col-6">
+                                <ion-label><b>Não</b> &nbsp;</ion-label>
+                                <ion-radio mode="md" item-left value="nao"></ion-radio>
+                            </div>
+                        </div>
+                    </ion-radio-group>
+
+                </div>
+                <div *ngIf="tipoimg_assinatura === 'nao' ">
+                    <img [src]="image|| ''" />
+                </div>
+
+                <div class="text-center" *ngIf="tipoimg_assinatura === 'nao' ">
+                    <ion-button color="primary" (click)="assinaturaCliente()">
+                        <span>Clique aqui para assinar</span>
+                    </ion-button>
+                    <br>
+                </div>
+
+            </div>
+
+
+            <ion-row *ngIf="desabilitarButao === false">
+                <ion-col>
+                    <ion-button type="submit" expand="block" [disabled]="!form.form.valid" color="primary" (click)="realizarPagamentoCredito()">
+                        Pagar {{resultado.valor_total_formato}}
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </form>
+    </div>
+</ion-content>

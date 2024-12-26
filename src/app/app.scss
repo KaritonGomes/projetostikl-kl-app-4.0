@@ -1,0 +1,20 @@
+#sidenav {
+  ion-item-group[submenu] {
+    overflow: hidden;
+    display: block;
+    height: 0;
+    transition: height 0.3s linear;
+    padding-left: 20%;
+    &.visible {
+      height: inherit;
+      // this is just sample value, calculate how much space you need for your menu items
+    }
+  }
+}
+
+.menu-header-bg {
+    height:180px;
+    width: 350px;
+    background: #7590d6 !important;
+ }
+

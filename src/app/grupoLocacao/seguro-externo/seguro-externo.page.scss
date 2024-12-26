@@ -1,0 +1,175 @@
+.final{
+  font-family: Montserrat;
+}
+.meuCard{
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin: 10px;
+  border-radius: 5px;
+}
+.cardTitulo{
+  background-color: #228662;
+  border-radius: 5px;
+
+}
+.cardTitulo span{
+  color: #fff;
+  padding: 10px;
+  font-size: 15px;
+}
+.card-bloco {
+  margin: 5px;
+  border:1px solid #ddd; 
+  border-radius: 10px;
+}
+.estilo-acordeon {
+  background-color: black;
+}
+.caridade {
+  margin-left: 22px;
+  width: 90%;
+}
+.cardMenu {
+  width: 90;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.separa-resumo {
+  margin-top: 70px;
+}
+
+.div-Lavagem {
+  font-size: 1em;
+  color: #fff;
+ padding: 10px 0px 0px 10px;
+  height: 40px;
+}
+.div-pedido {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.2em;
+  padding-left: 10px;
+  color: #000;
+}
+.radio {
+  //--border-radius: 100%;
+  width: 25px;
+  height: 20px;
+}
+ion-label {
+  color: #000;
+  font-family: Montserrat,Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.preco-lavagem {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  padding-left: 25px;
+}
+ion-card-title {
+  border-bottom: 1px solid #ddd;
+  font-size: 1.5em;
+}
+ion-col {
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+}
+input {
+  padding-bottom: 3px;
+  margin: 3px;
+}
+ion-input {
+  padding-bottom: 3px;
+  margin: 3px;
+}
+ion-buttom {
+  margin: 3px 10px 3px 10px;
+}
+.bt-excluir {
+  float: right;
+  margin-right: 10px;
+}
+ion-icon {
+  text-align: center;
+}
+.gb {
+  color: #000;
+}
+.conforto {
+  border-bottom: 1px solid #ddd;
+}
+.tam {
+  width: 50px;
+  height: 50px;
+  font-size: 1.2em;
+}
+.footer {
+  background-color: #ddd;
+  color: #000;
+}
+.cardDoacao {
+  width: 98%;
+  margin: 3px;
+}
+.labDoacao {
+  color: #000;
+  font-size: 1.2em;
+  padding-left: 10px;
+}
+
+.resumo-col {
+  color: green;
+  font-size: 1em;
+}
+
+.active {
+  display: block;
+}
+
+.inactive {
+  display: none;
+}
+.inativado{
+  display: none;
+}
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.div-acessorio {
+  color: #000;
+  margin-left: 10px;
+  font-size: 1.1em;
+}
+.input-acessorio {
+  width: 60px;
+  height: 40px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
+
+.v-middle {
+  vertical-align: middle;
+}
+.fonte-acer {
+  font-size: 14px;
+}
+.container-getValor {
+  font-weight: 300;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: green;
+}
+.separador-list-ace {
+  border-bottom: 1px solid #ddd;
+}
+
+

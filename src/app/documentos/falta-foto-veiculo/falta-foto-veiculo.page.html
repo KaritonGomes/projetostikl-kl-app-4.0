@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="tabs/pagamento"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Falta foto do veículo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+        <div >
+          <br />
+          <ion-item (click)="tirarFoto('frente')">
+            <ion-thumbnail item-start>
+              <img src="{{baseFrente || 'assets/imgs/camera.png'}}" />
+            </ion-thumbnail>
+            &nbsp;
+            <span style="font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: #000"><b>Frente do
+                veículo</b></span>
+            &nbsp;
+            <ion-icon name="close" color="danger" *ngIf="baseFrente == null || baseFrente == undefined"></ion-icon>
+            <ion-icon name="checkmark" color="success" *ngIf="baseFrente != false && baseFrente != undefined"></ion-icon>
+          </ion-item>
+  
+          <ion-item (click)="tirarFoto('lateralDireito')">
+            <ion-thumbnail slot="start">
+              <img src="{{lateralDireito || 'assets/imgs/camera.png'}}" />
+            </ion-thumbnail>
+            &nbsp;
+            <span style="font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: #000"><b>Lateral Direito
+                <br />do veículo</b></span>
+            &nbsp;
+            <ion-icon name="close" color="danger" *ngIf="lateralDireito == null || lateralDireito == undefined">
+            </ion-icon>
+            <ion-icon name="checkmark" color="success" *ngIf="lateralDireito != false && lateralDireito != undefined">
+            </ion-icon>
+          </ion-item>
+  
+          <ion-item (click)="tirarFoto('traseira')">
+            <ion-thumbnail slot="start">
+              <img src="{{baseTraseiro || 'assets/imgs/camera.png'}}" />
+            </ion-thumbnail>
+            &nbsp;
+            <span style="font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: #000"><b>Atrás do
+                veículo</b></span>
+            &nbsp;
+  
+            <ion-icon name="close" color="danger" *ngIf="baseTraseiro == null || baseTraseiro == undefined"></ion-icon>
+            <ion-icon name="checkmark" color="success" *ngIf="baseTraseiro != false && baseTraseiro != undefined">
+            </ion-icon>
+          </ion-item>
+  
+          <ion-item (click)="tirarFoto('lateralEsquerdo')">
+            <ion-thumbnail slot="start">
+              <img src="{{lateralEsquerdo || 'assets/imgs/camera.png'}}" />
+            </ion-thumbnail>
+            &nbsp;
+            <span style="font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: #000"><b>Lateral Esquerdo
+                <br />do veículo</b></span>
+            &nbsp;
+            <ion-icon name="close" color="danger" *ngIf="lateralEsquerdo == null || lateralEsquerdo == undefined">
+            </ion-icon>
+            <ion-icon name="checkmark" color="success" *ngIf="lateralEsquerdo != false && lateralEsquerdo != undefined">
+            </ion-icon>
+          </ion-item>
+  
+          <ion-item (click)="tirarFoto('km')">
+            <ion-thumbnail slot="start">
+              <img [src]="km || 'assets/imgs/camera.png'" />
+            </ion-thumbnail>
+            &nbsp;
+            <span style="font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: #000"><b>Quilometragem
+                <br />do veículo</b></span>
+            &nbsp;
+            <ion-icon name="close" color="danger" *ngIf="km == null || km == undefined"></ion-icon>
+            <ion-icon name="checkmark" color="success" *ngIf="km != false && km != undefined"></ion-icon>
+          </ion-item>
+          <br />
+         
+          <!--[disabled]="habilitarButao()"-->
+          <ion-button style=" width: 95%; margin-left: 10px; margin-right: 10px;" expand="block"  class="ion-margin-top" full tappable
+            >
+            CONTINUAR
+          </ion-button>
+          <!--choose guest-->
+  
+        </div>
+  
+ </ion-content>
+

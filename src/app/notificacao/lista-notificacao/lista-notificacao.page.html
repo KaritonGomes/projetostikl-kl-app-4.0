@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Notificação</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <h6 padding><b>Para atualizar arraste para baixo</b></h6>-->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslise para baixo para atualizar"
+      refreshingSpinner="circles" refreshingText="Atualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of lista ; let i=index">
+      <ion-item lines="none" detail (click)=" lidas(item)">
+        <ion-card [ngClass]="{ lido: item.lido_lei === '1' , naolido: item.lido_lei !== '1' && item.antiga !== '1'}">
+          <ion-card-header>
+            <ion-card-title class="card-title">
+              {{ item.titulo_notif }}
+            </ion-card-title>
+
+            <!---->
+            <ion-card-subtitle>
+              <img src="{{item.url_img_noti}}">
+            </ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div align="justify"><span [innerHTML]="item.mensagem | noSanitize"></span></div>
+            <br />
+            <div class="divs">
+              <b>Data Recebimento:&nbsp;{{ item.data_notif }}</b>
+            </div>
+
+          </ion-card-content>
+
+        </ion-card>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="primary" (click)="arquivar(item.id_notif)" (ionSwipe)="arquivar(item.id_notif)">
+          <ion-icon name="archive"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,31 @@
+export class Cliente {
+       id?: number;
+       nome?: string;
+       cpf?: string;
+       email?: string;
+       rg: string;
+       fone: string = '(92)';
+       senha: string;
+       nova_senha: string;
+       habilitacao?: string;
+       validade_hab?: string;
+       data_nascimento?: string;
+       sexo_cli?: any;
+       estado_civil?: any;
+       img?: string;
+       token?: string;
+       cep?: string;
+       logradouro?: string;
+       numero?: string;
+       complemento?: string;
+       bairro?: string;
+       localidade?: string;
+       uf?: string;
+       nacionalidade?: string;
+       mae: string;
+       profissao: string;
+       uf_cnh: string;
+       orgao_exepeditor: string;
+       contrato: any = '';
+       isChecklist?: any;
+}

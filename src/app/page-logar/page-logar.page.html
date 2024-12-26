@@ -1,0 +1,59 @@
+<ion-header class="ion-no-border topo" [translucent]="false">
+  <ion-toolbar >
+    <ion-buttons slot="start">
+      <ion-back-button style="color:#fff;" defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="main">
+  <div class="area">
+    <div class="area1">
+      <h1></h1>
+    </div>
+    <div class="area2">
+      <form (ngSubmit)="acessar()" [formGroup]="credenciais" class="formi">
+        <div class="image">
+          <img src="../../assets/imgs/kll.png">
+        </div>
+
+
+        <div class="input-group">
+
+          <ion-item>
+            <ion-label>Lembrar Senha</ion-label>
+            <ion-toggle [checked]=manterLogin (ionChange)="salvarSenha($event)"></ion-toggle>
+          </ion-item>
+
+          <ion-item >
+            <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+          </ion-item>
+          <div *ngIf="(email.dirty || email?.touched) && email.errors" class="errors">
+            <span *ngIf="email.errors?.required">Email é obrigatórioo</span>
+            <span *ngIf="email.errors?.email">Email é inválido</span>
+          </div>
+          <ion-item>
+            <ion-input  type="{{ passwordtype }}" name="senha_usu" id="senha_usu" placeholder="Senha" formControlName="senha"></ion-input>
+            <ion-button ion-button clear class="eye-icon-btn" type="button" item-right (click)="managePassword()">
+              <ion-icon name="{{ passeye }}"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <div *ngIf="(senha.dirty || password?.touched) && senha.errors" class="errors">
+            <span *ngIf="senha.errors?.required">Senha é é obrigatório</span>
+            <span *ngIf="senha.errors?.minlength">Senha precisa ter no minímo 6 caracteres</span>
+          </div>
+        </div>
+        <!-- <ion-button (click)="verificaBio()" class="bt" type="submit" expand="block">Verifica</ion-button> -->
+
+        <ion-button class="bt" type="submit" expand="block" [disabled]="!credenciais.valid">Entrar</ion-button>
+        <ion-button class="cad" type="button" expand="block" fill="clear" (click)="criarConta()">
+          Não tem cadastro? Cadastre-se!
+        </ion-button>
+        <ion-button class="cad" type="button" expand="block" fill="clear">
+          <strong (click)="recuperarSenha()">Recuperar senha</strong>
+        </ion-button>
+      </form>
+    </div>
+  </div>
+  
+</ion-content>

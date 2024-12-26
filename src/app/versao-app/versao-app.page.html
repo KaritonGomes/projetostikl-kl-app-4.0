@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Versão</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card class="card">
+        <ion-list>
+          <div style="width:100%;height:220px;margin:0px 0px;line-height:250px;background-color:#e8ebef;text-align:center;">
+            <i class="icon ion-image" style="font-size:64px;color:#888;vertical-align:middle;"></i>
+          </div>
+          <ion-item id="versaoDesatualizada-list-item-container2">
+            <div id="versaoDesatualizada-markdown2" class="show-list-numbers-and-dots">
+              <p style="margin-top:0px;color:#000000;">
+                O aplicativo que você está usando está
+              </p>
+              <p style="margin-top:0px;color:#000000;">
+                desatualizado, para atualizar </p>
+              <p style="margin-top:0px;color:#000000;">
+                click no link abaixo
+              </p>
+            </div>
+          </ion-item>
+          <ion-item color="assertive" id="versaoDesatualizada-list-item4">
+            <ion-thumbnail item-left>
+              <img src="assets/imgs/kl.png" />
+            </ion-thumbnail>
+            <h2>
+              Atualize o Aplicativo
+            </h2>
+          </ion-item>
+          <ion-button class="btn" expand="block" id="versaoDesatualizada-button2" color="primary" (click)="atualizar()">
+            Atualizar
+          </ion-button>
+        </ion-list>
+      </ion-card>
+
+</ion-content>

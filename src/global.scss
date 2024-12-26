@@ -1,0 +1,107 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap');
+
+*{
+    font-family: Montserrat!important;
+    
+}
+body{
+    background: #fff!important;
+}
+
+.novo {
+    background: #228662 !important;
+    color: #fff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+ion-popover [popover]:not(:popover-open):not(dialog[open]) {
+    display: contents;
+}
+
+.close {
+    background: red !important;
+    color: #fff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+.app-alert, .alert-wrapper{
+    background-color: #228662;
+
+    .alert-head{
+        background-color: darkblue;
+        color: darkblue;
+    
+        h2{
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+     
+    }
+
+    .alert-button-group{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        button{
+            width: 45%;
+            border-radius: 6px;
+
+            &:last-child{
+                color: white;
+            }
+            span{
+                display: flex;
+                justify-content: center;
+                color: darkblue;
+            }
+        }
+    }
+
+
+}
+
+.alertaIndica{
+    header{
+        background-color: darkblue;
+    }
+    header h2{
+        font-size: 12px;
+    }
+    button{
+        color: darkblue;
+    }
+    text{
+        color: darkblue;
+    }
+}

@@ -1,0 +1,75 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="tabs/perfil"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Foto do Perfil</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+ 
+    <div class="container mt-5 mb-5">
+      <div class="row">
+
+        <div class="card cardfile col-md-12" #ref >
+          <div class="form-group">
+            <div class="row">
+              <div class="col-sm-9">
+                <span class="hidden-file">
+                  <input  type="file" #fileInput ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" />
+                </span>
+                <p></p>
+                <div class="btn-group" (click)="fileInput.click()">
+                 
+                  <button type="button" class="btn btn-primary btn-group-icon btn-group-divider">
+                       <i class="ion-plus-round"></i>
+                  </button>
+                  <p></p>
+                  <button type="button" class="btn btn-primary">
+                     Adicionar Foto
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--*ngIf="referenciado === true"-->
+        
+        <div class=" card cardfile col-md-9 mt-5" >
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Arquivo</th>
+                <th>Tamanho</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of uploader.queue" >
+                <td>
+                  {{ item?.file?.name }}
+                </td>
+                <td>
+                  {{ item?.file?.size/1024/1024 | number:'.2' }} MB
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+              <span class="glyphicon glyphicon-trash"></span> 
+             Remove
+            </button>
+            <ion-button (click)="upload(item?.file?.name )">ENVIAR</ion-button>
+                </td>
+                
+              </tr>
+            </tbody>
+          </table>
+         
+          <br />
+        </div>
+       
+      </div>
+    </div>
+    
+  </ion-content>
+ 
+

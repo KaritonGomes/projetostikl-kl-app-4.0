@@ -1,0 +1,53 @@
+ion-card-title{
+    background-color: #228662;
+    color: #fff;
+    padding: 10px;
+    width: auto;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+ion-label{
+    font-family: Montserrat;
+}
+ion-toggle {
+    --background: #eee;
+    --background-checked: #228662;
+  
+    --handle-background: #228662;
+    --handle-background-checked: #ccc;
+  }
+  .ops{
+      background-color: aqua;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+  }
+  .list{
+      width: 50%;
+      text-align: center;
+
+  }
+  .text{
+      display: flex;
+      background-color: #228662;
+      color: #fff;
+      margin-top: 10px;
+      border-top-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+
+  }
+  .contrato{
+      width: 50%;
+      text-align: center;
+      border-right: 1px solid #fff;
+  }
+  .kms{
+    width: 50%;
+    text-align: center;
+  }
+  .logofreedom{
+      background-color: #228662;
+      img{
+          padding: 20px;
+      }
+  }

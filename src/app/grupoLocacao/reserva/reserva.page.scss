@@ -1,0 +1,59 @@
+.nova{
+  margin-bottom: 20px;
+}
+.nova h1{
+  margin-left: 10px;
+  margin-bottom: 30px;
+  color: #000;
+}
+
+.promocoes{
+  background-color: #228662;
+  display: flex;
+  justify-content: space-between;
+}
+.ion-segment{
+  display: flex;
+  justify-content: space-between;
+  height: 200px;
+}
+.ion-header{
+  background-color: #228662;
+}
+.divToolbar .tarifa .planos {
+  width: 95%;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #228662;
+  padding-top: 2px;
+}
+.divToolbar ion-icon{
+  font-size: 30px;
+  padding: 0 20px;
+}
+.tarifa {
+  width: 40%;
+  float: left;
+  color: #228662;
+}
+.planos {
+  width: 40%;
+  float: right;
+  color: #000;
+}
+input {
+  margin: 10px;
+  width: 95%;
+}
+ion-button {
+  margin: 10px;
+}
+.card-header {
+  background-color: #228662;
+  font-size: 16px;
+  color: green;
+}
+ion-icon{
+  font-size: 14px;
+  color: #000;
+}

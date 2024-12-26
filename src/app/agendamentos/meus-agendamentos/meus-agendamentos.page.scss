@@ -1,0 +1,44 @@
+.form {
+  background-color: white;
+}
+.cartao-destaque {
+  border-bottom: 1px dotted #dddddd;
+  padding: 10px;
+  width: 100%;
+  color: #000 !important;
+  box-shadow: none !important;
+  background-color: white;
+}
+.cartao-bg {
+  background-color: white !important;
+}
+
+.borda {
+  border-bottom: 1px dotted #1565c0 !important;
+}
+.cartao-destaque h3 {
+  font-size: 1.3em !important;
+  font-weight: bold !important;
+}
+.cartao-destaque div {
+  padding: 3px 0 !important;
+}
+.cartao-esquerda {
+  float: left;
+  width: 100%;
+}
+.cartao-direita {
+  float: right;
+  width: 35%;
+}
+.botao-detalhe {
+  background-color: #488aff;
+  color: #fff;
+  padding: 15px;
+}
+.icone {
+  // border-radius: 20%;
+  width: 50%;
+  height: 50%;
+  float: right;
+}

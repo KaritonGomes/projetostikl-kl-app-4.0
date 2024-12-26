@@ -1,0 +1,105 @@
+.numeros{
+  margin: auto;
+  margin-top: 20px;
+}
+.agenda{
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  margin: auto;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border: 1px solid #eee;
+
+  label{
+    color: #fff;
+    background-color: #228662;
+    padding: 7px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    width: 100%;
+  }
+  a{
+    padding: 7px;
+    color: #228662;
+
+  }
+  
+}
+.agenda 
+.contato{
+ color: #fff;
+}
+
+.user-avatar {
+  width: 110px;
+  height: 110px;
+  display: inline-block;
+  border-radius: 100%;
+ 
+  img {
+    border-radius: 100%;
+  }
+}
+.geral{
+  background-color: #228662;
+  width: 100%;
+  padding: 10px;
+  color: #fff
+}
+a{
+  color:#fff;
+  text-decoration: none;
+}
+.div-box{
+  margin: 10px;
+}
+.div-box a{
+  color: #000;
+}
+
+.contato {
+       width: 97%;
+       margin-left: 2%;
+       margin-right: 2%;
+       border-bottom: 1px dotted #dddddd;
+         padding: 5px 5px 20px 5px;
+     }
+     .estilo {
+       color: #000;
+       font-size: 14pt;
+     }
+     .fone{
+       font-size: 12pt;
+     }
+     .css{
+       width: 98%;
+       padding: 3px 3px 3px 3px;
+       font-size: 13pt;
+      
+   
+     }
+     .css2 {
+       width: 98%;
+       padding: 10px 10px 10px 10px;
+       background-color:  #FFFFFF;
+   
+     }
+     .fonte {
+       font-size: 13pt;
+     }
+   
+   $nav-width: 200px;
+   ion-card {
+           & .picture{
+               margin: 3px auto;
+               margin-left: 35%;
+               width: (.4 * $nav-width);
+               height: (.4 * $nav-width);
+               border-radius: 100px;
+               overflow: hidden;
+               background-color:transparent;
+           }
+       }

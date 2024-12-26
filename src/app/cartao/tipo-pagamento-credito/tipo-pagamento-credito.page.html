@@ -1,0 +1,66 @@
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/locacao"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Tipo Pagamento crédito</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card color="tertiary">
+    <ion-card-header>
+      <ion-card-title>Seu Cartão</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Não enviar foto do código de segurança do cartão de crédito(CVV) <br />
+      Oculte antes de enviar <br />
+      Prints da tela não são aceitos <br />
+    </ion-card-content>
+    <div class="text-center">
+      <ion-button color="light" (click)="prosseguir('a')">Prosseguir</ion-button>
+    </div>
+   
+  </ion-card>
+
+
+  <ion-card color="primary">
+    <ion-card-header>
+      <ion-card-title>Cartão de terceiros com autorização</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Não enviar foto do código de segurança do cartão de crédito(CVV) <br />
+      Oculte antes de enviar <br />
+      Prints da tela não são aceitos <br />
+    </ion-card-content>
+    <div class="text-center">
+      <ion-button color="light"(click)="prosseguir('b')" >Prosseguir</ion-button>
+    </div>
+  </ion-card>
+
+  <ion-card color="danger">
+    <ion-card-header>
+      <ion-card-title>Cartão de terceiros sem autorização</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <div>
+        <h6 align="justify"><b >Necessitamos da declaração de autorização do titular do cartão assinada, juntamente com um documento de identificação que comprove a assinatura. <br/>
+         <br /> <b> 1-Assinatura  na declaração, deve ser igual à do documento oficial.  <br /> <br/>
+          2-Baixe a declaração de autorização , imprima e preencha os dados de acordo com o documento original(RG OU CNH).<br/>
+          Assinatura do documento deve ser igual com o documento original(RG OU CNH).</b>
+         <br />
+         <ion-button color="light" (click)="baixarDeclaracao()"><b style="color: #000;">Baixe agora</b> &nbsp; <ion-icon name="document"></ion-icon>
+         </ion-button> </b></h6>
+    </div>
+    </ion-card-content>
+    <div class="text-center">
+      <ion-button color="light" (click)="prosseguir('c')">Prosseguir</ion-button>
+    </div>
+  </ion-card>
+ 
+</ion-content>
+

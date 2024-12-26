@@ -1,0 +1,36 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary" >
+    <ion-buttons slot="start" style="background: transparent ;">
+      <ion-back-button style="color:#fff ;" defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="main">
+      <div class="fim"></div>
+      <div class="meio">
+        <img src="../../assets/imgs/kll.png" width="60%">
+      </div>
+      <div class="topo">
+        <div class="alugar">
+          <button (click)="reservar()" ><ion-icon size="large" name="car-sport-outline"></ion-icon></button>
+          <p>RESERVAR</p>
+        </div>
+        <div class="alugar">
+
+          <a class="link"  target="_blank" (click)="freedom()" >
+          <button><ion-icon size="large" name="pencil-outline"></ion-icon></button>
+        </a>
+          <p>KL FREEDOM</p>
+        </div>
+         <div class="alugar">
+          <button (click)="criarConta()" ><ion-icon size="large" name="person-add-outline"></ion-icon></button>
+          <p>CADASTRE-SE</p>
+        </div>
+        <div class="alugar">
+          <button (click)="goToLista()"><ion-icon size="large" name="book-outline"></ion-icon></button>
+          <p>TERMOS</p>
+        </div>
+    </div>
+    </div>
+</ion-content>

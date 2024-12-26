@@ -1,0 +1,457 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="tabs/locacao"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Fotos Pagamento </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <form>
+
+        <ion-card *ngIf="tipo ==='deposito' ">
+            <div class="banco">
+                <div>
+                    <b>KAELE LTDA EPP CNPJ: 04.819.323.0001-62</b><br/>
+                    <b>Bradesco ag:3734 C/C: 15800-3</b>
+                </div>
+                <div>
+                    <b>NOSSO PIX</b><br/>
+                    <b>04.819.323.0001-62</b>
+                </div>
+                <div>
+                    Depósito deve ser feiro 2(dois) dias antes do vencimento da locação.
+                </div>
+                <div>
+                    * Anexe o comprovante de depósito junto com o número de transação. <br /> * A equipe da KL RENT A CAR estará analisando seu pedido em caso de valores incorretos será estornado o valor.
+                </div>
+                <div>
+                    <span style="font-size: 18px;"> Valor Total:&nbsp; <b>R$ {{ resultado.valor_total_formato}}</b></span>
+                </div>
+            </div>
+
+            <div class="container-fluid ">
+                <div class="row ">
+                    <div class="col-12 text-center">
+                        <ion-item (click)="tirarFoto('frente')" lines="none">
+                            <ion-thumbnail>
+                                <img src="{{baseFrente || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b >&nbsp;&nbsp;&nbsp;&nbsp;Frente do veículo</b></span>
+                        <ion-icon name="close" color="danger" *ngIf="baseFrente == null || baseFrente == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="baseFrente != false && baseFrente != undefined"></ion-icon>
+                    </div>
+                    <!---------------->
+                    <div class="col-12 text-center" *ngIf="baseFrente != false && baseFrente != undefined">
+                        <ion-item (click)="tirarFoto('lateralDireito')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{lateralDireito || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Lateral Direito do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="lateralDireito == null || lateralDireito == undefined">
+                        </ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="lateralDireito != false && lateralDireito != undefined">
+                        </ion-icon>
+                    </div>
+                    <!--------->
+                    <div class="col-12 text-center" *ngIf="lateralDireito != false && lateralDireito != undefined">
+                        <ion-item (click)="tirarFoto('traseira')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{baseTraseiro || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Atrás do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="baseTraseiro == null || baseTraseiro == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="baseTraseiro != false && baseTraseiro != undefined">
+                        </ion-icon>
+                    </div>
+                    <!------------------------------->
+                    <div class="col-12 text-center" *ngIf="baseTraseiro != false && baseTraseiro != undefined">
+                        <ion-item (click)="tirarFoto('lateralEsquerdo')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{lateralEsquerdo || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Lateral Esquerdo do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="lateralEsquerdo == null || lateralEsquerdo == undefined">
+                        </ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="lateralEsquerdo != false && lateralEsquerdo != undefined">
+                        </ion-icon>
+                    </div>
+
+                    <!---------------foto km ------------------->
+                    <div class="col-12 text-center" *ngIf="lateralEsquerdo != false && lateralEsquerdo != undefined">
+                        <ion-item (click)="tirarFoto('km')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img [src]="km || 'assets/imgs/camera.png'" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Quilometragem do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="km == null || km == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="km != false && km != undefined"></ion-icon>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row km-control">
+                <div class="col-sm col-5">
+                    <label>KM anterior</label>
+                    <ion-input [(ngModel)]="km_anterior" name="km_anterior" id="km_anterior" [readonly]="true" class="form-control"></ion-input>
+                </div>
+                <div class="col-sm col-7">
+                    <label>KM atual</label>
+                    <ion-input class="form-control input" placeholder="Preencha a Quilometragem " type="number" [(ngModel)]="km_carro" name="km_carro" id="km_carro" [ngModelOptions]="{standalone: true}"></ion-input>
+                </div>
+
+            </div>
+            <ion-button expand="block" class="ion-margin-top btns" full tappable (click)="enviarFotoDev()">
+                Realizar pagamento
+            </ion-button>
+            <br />
+        </ion-card>
+
+
+        <!-------------------------------------fotos pagamento credito------------------------------------------------>
+        <ion-card *ngIf="tipo ==='a' ">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <ion-item (click)="tirarFoto('frente')" lines="none">
+                            <ion-thumbnail item-start>
+                                <img src="{{baseFrente || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b >&nbsp;&nbsp;&nbsp;&nbsp;Frente do veículo</b></span>
+                        <ion-icon name="close" color="danger" *ngIf="baseFrente == null || baseFrente == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="baseFrente != false && baseFrente != undefined"></ion-icon>
+                    </div>
+                    <!---------------->
+                    <div class="col-12 text-center" *ngIf="baseFrente != false && baseFrente != undefined">
+                        <ion-item (click)="tirarFoto('lateralDireito')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{lateralDireito || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Lateral Direito do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="lateralDireito == null || lateralDireito == undefined">
+                        </ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="lateralDireito != false && lateralDireito != undefined">
+                        </ion-icon>
+                    </div>
+                    <!--------->
+                    <div class="col-12 text-center" *ngIf="lateralDireito != false && lateralDireito != undefined">
+                        <ion-item (click)="tirarFoto('traseira')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{baseTraseiro || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Atrás do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="baseTraseiro == null || baseTraseiro == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="baseTraseiro != false && baseTraseiro != undefined">
+                        </ion-icon>
+                    </div>
+                    <!------------------------------->
+                    <div class="col-12 text-center" *ngIf="baseTraseiro != false && baseTraseiro != undefined">
+                        <ion-item (click)="tirarFoto('lateralEsquerdo')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{lateralEsquerdo || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Lateral Esquerdo do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="lateralEsquerdo == null || lateralEsquerdo == undefined">
+                        </ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="lateralEsquerdo != false && lateralEsquerdo != undefined">
+                        </ion-icon>
+                    </div>
+
+                    <!---------------foto km ------------------->
+                    <div class="col-12 text-center" *ngIf="lateralEsquerdo != false && lateralEsquerdo != undefined">
+                        <ion-item (click)="tirarFoto('km')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img [src]="km || 'assets/imgs/camera.png'" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Quilometragem do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="km == null || km == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="km != false && km != undefined"></ion-icon>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row km-control">
+                <div class="col-sm col-5">
+                    <label>KM anterior</label>
+                    <ion-input [(ngModel)]="km_anterior" name="km_anterior" id="km_anterior" [readonly]="true" class="form-control"></ion-input>
+                </div>
+                <div class="col-sm col-7">
+                    <label>KM atual</label>
+                    <ion-input class="form-control input" placeholder="Preencha a Quilometragem " type="number" [(ngModel)]="km_carro" name="km_carro" id="km_carro" [ngModelOptions]="{standalone: true}"></ion-input>
+                </div>
+
+            </div>
+            <ion-button expand="block" class="ion-margin-top btns" full tappable (click)="enviarFotoCredito()">
+                Realizar pagamento
+            </ion-button>
+            <br />
+        </ion-card>
+
+        <!-----------------------------------pagamento com autorização----------------------------------------->
+        <ion-card *ngIf="tipo ==='b' ">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <ion-item (click)="tirarFoto('cartaoFrente')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img [src]="cartaoFrente || 'assets/imgs/camera.png'" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>Cartão de terceiros nome visível</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="cartaoFrente == null || cartaoFrente == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="cartaoFrente != false && cartaoFrente != undefined"></ion-icon>
+
+                    </div>
+
+                    <!--------------------->
+
+                    <div class="col-12 text-center" *ngIf="cartaoFrente != false && cartaoFrente != undefined">
+                        <ion-item (click)="tirarFoto('frente')" lines="none">
+                            <ion-thumbnail item-start>
+                                <img src="{{baseFrente || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b >&nbsp;&nbsp;&nbsp;&nbsp;Frente do veículo</b></span>
+                        <ion-icon name="close" color="danger" *ngIf="baseFrente == null || baseFrente == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="baseFrente != false && baseFrente != undefined"></ion-icon>
+                    </div>
+
+                    <!---------------->
+
+                    <div class="col-12 text-center" *ngIf="baseFrente != false && baseFrente != undefined">
+                        <ion-item (click)="tirarFoto('lateralDireito')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{lateralDireito || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Lateral Direito do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="lateralDireito == null || lateralDireito == undefined">
+                        </ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="lateralDireito != false && lateralDireito != undefined">
+                        </ion-icon>
+                    </div>
+
+                    <!--------->
+
+                    <div class="col-12 text-center" *ngIf="lateralDireito != false && lateralDireito != undefined">
+                        <ion-item (click)="tirarFoto('traseira')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{baseTraseiro || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px"><b>&nbsp;&nbsp;&nbsp;&nbsp;Atrás do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="baseTraseiro == null || baseTraseiro == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="baseTraseiro != false && baseTraseiro != undefined">
+                        </ion-icon>
+                    </div>
+
+                    <!------------------------------->
+
+                    <div class="col-12 text-center" *ngIf="baseTraseiro != false && baseTraseiro != undefined">
+                        <ion-item (click)="tirarFoto('lateralEsquerdo')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{lateralEsquerdo || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Lateral Esquerdo do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="lateralEsquerdo == null || lateralEsquerdo == undefined">
+                        </ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="lateralEsquerdo != false && lateralEsquerdo != undefined">
+                        </ion-icon>
+                    </div>
+
+                    <!---------------foto km ------------------->
+
+                    <div class="col-12 text-center" *ngIf="lateralEsquerdo != false && lateralEsquerdo != undefined">
+                        <ion-item (click)="tirarFoto('km')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img [src]="km || 'assets/imgs/camera.png'" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Quilometragem do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="km == null || km == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="km != false && km != undefined"></ion-icon>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row km-control">
+                <div class="col-sm col-5">
+                    <label>KM anterior</label>
+                    <ion-input [(ngModel)]="km_anterior" name="km_anterior" id="km_anterior" [readonly]="true" class="form-control"></ion-input>
+                </div>
+                <div class="col-sm col-7">
+                    <label>KM atual</label>
+                    <ion-input class="form-control input" placeholder="Preencha a Quilometragem " type="number" [(ngModel)]="km_carro" name="km_carro" id="km_carro" [ngModelOptions]="{standalone: true}"></ion-input>
+                </div>
+
+            </div>
+            <ion-button expand="block" class="ion-margin-top btns" full tappable (click)="enviarFotoCredito()">
+                Realizar pagamento
+            </ion-button>
+            <br />
+        </ion-card>
+
+
+        <!------------------------------------pagamento sem autorização-------------------------->
+
+        <ion-card *ngIf="tipo ==='c' ">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <!---------------->
+                    <div class="col-12 text-center">
+                        <ion-item (click)="tirarFoto('identidade')">
+                            <ion-thumbnail slot="start">
+                                <img [src]="identidade || 'assets/imgs/camera.png'" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px"><b>Documento do titular do cartão(RG OU CNH)</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="identidade == null || identidade == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="identidade != false && identidade != undefined"></ion-icon>
+                    </div>
+                    <!--------->
+                    <div class="col-12 text-center" *ngIf="identidade != false && identidade != undefined">
+                        <ion-item (click)="tirarFoto('declaracao')">
+                            <ion-thumbnail slot="start">
+                                <img [src]="declaracao || 'assets/imgs/camera.png'" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>Declaração de autorização preenchida</b></span> &nbsp;
+
+                        <ion-icon name="close" color="danger" *ngIf="declaracao == null || declaracao == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="declaracao != false && declaracao != undefined">
+                        </ion-icon>
+                    </div>
+                    <!------------------------------->
+                    <div class="col-12 text-center" *ngIf="declaracao != false && declaracao != undefined">
+                        <ion-item (click)="tirarFoto('selfie')">
+                            <ion-thumbnail slot="start">
+                                <img [src]="selfie || 'assets/imgs/camera.png'" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px; "><b>Selfie do titular do cartão Segurando o documento</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="selfie == null || selfie == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="selfie != false && selfie != undefined"></ion-icon>
+                    </div>
+
+                    <!---------------cartão frente ------------------->
+                    <div class="col-12 text-center" *ngIf="selfie != false && selfie != undefined">
+                        <ion-item (click)="tirarFoto('cartaoFrente')">
+                            <ion-thumbnail slot="start">
+                                <img [src]="cartaoFrente || 'assets/imgs/camera.png'" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px"><b>Cartão(frente)</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="cartaoFrente == null || cartaoFrente == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="cartaoFrente != false && cartaoFrente != undefined"></ion-icon>
+                    </div>
+                    <!---------------cartão verso ------------------->
+                    <div class="col-12 text-center" *ngIf="cartaoFrente != false && cartaoFrente != undefined">
+                        <ion-item (click)="tirarFoto('cartaoVerso')">
+                            <ion-thumbnail slot="start">
+                                <img [src]="cartaoVerso || 'assets/imgs/camera.png'" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>Cartão(verso) Cubra o CVV(codígo de segurança)</b></span>
+                        <ion-icon name="close" color="danger" *ngIf="cartaoVerso == null || cartaoVerso == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="cartaoVerso != false && cartaoVerso != undefined"></ion-icon>
+                    </div>
+                    <div class="col-12 text-center" *ngIf="cartaoVerso != false && cartaoVerso != undefined">
+                        <ion-item (click)="tirarFoto('frente')" lines="none">
+                            <ion-thumbnail item-start>
+                                <img src="{{baseFrente || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b >&nbsp;&nbsp;&nbsp;&nbsp;Frente do veículo</b></span>
+                        <ion-icon name="close" color="danger" *ngIf="baseFrente == null || baseFrente == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="baseFrente != false && baseFrente != undefined"></ion-icon>
+                    </div>
+                    <!---------------->
+                    <div class="col-12 text-center" *ngIf="baseFrente != false && baseFrente != undefined">
+                        <ion-item (click)="tirarFoto('lateralDireito')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{lateralDireito || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px; "><b>&nbsp;&nbsp;&nbsp;&nbsp;Lateral Direito do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="lateralDireito == null || lateralDireito == undefined">
+                        </ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="lateralDireito != false && lateralDireito != undefined">
+                        </ion-icon>
+                    </div>
+                    <!--------->
+                    <div class="col-12 text-center" *ngIf="lateralDireito != false && lateralDireito != undefined">
+                        <ion-item (click)="tirarFoto('traseira')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{baseTraseiro || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Atrás do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="baseTraseiro == null || baseTraseiro == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="baseTraseiro != false && baseTraseiro != undefined">
+                        </ion-icon>
+                    </div>
+                    <!------------------------------->
+                    <div class="col-12 text-center" *ngIf="baseTraseiro != false && baseTraseiro != undefined">
+                        <ion-item (click)="tirarFoto('lateralEsquerdo')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img src="{{lateralEsquerdo || 'assets/imgs/camera.png'}}" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Lateral Esquerdo do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="lateralEsquerdo == null || lateralEsquerdo == undefined">
+                        </ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="lateralEsquerdo != false && lateralEsquerdo != undefined">
+                        </ion-icon>
+                    </div>
+
+                    <!---------------foto km ------------------->
+                    <div class="col-12 text-center" *ngIf="lateralEsquerdo != false && lateralEsquerdo != undefined">
+                        <ion-item (click)="tirarFoto('km')" lines="none">
+                            <ion-thumbnail slot="start">
+                                <img [src]="km || 'assets/imgs/camera.png'" />
+                            </ion-thumbnail>
+                        </ion-item>
+                        <span style="font-family: 'Times New Roman', Times, serif; font-size: 15px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;Quilometragem do veículo</b></span> &nbsp;
+                        <ion-icon name="close" color="danger" *ngIf="km == null || km == undefined"></ion-icon>
+                        <ion-icon name="checkmark" color="success" *ngIf="km != false && km != undefined"></ion-icon>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row km-control" *ngIf="km != false && km != undefined">
+                <div class="col-sm col-5">
+                    <label>KM anterior</label>
+                    <ion-input [(ngModel)]="km_anterior" name="km_anterior" id="km_anterior" [readonly]="true" class="form-control"></ion-input>
+                </div>
+                <div class="col-sm col-7">
+                    <label>KM atual</label>
+                    <ion-input class="form-control input" placeholder="Preencha a Quilometragem " type="number" [(ngModel)]="km_carro" name="km_carro" id="km_carro" [ngModelOptions]="{standalone: true}"></ion-input>
+                </div>
+
+            </div>
+            <ion-button expand="block" class="ion-margin-top btns" full tappable (click)="enviarFotoCredito()">
+                Realizar pagamento
+            </ion-button>
+            <br />
+        </ion-card>
+
+
+    </form>
+</ion-content>

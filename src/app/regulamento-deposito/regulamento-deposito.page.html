@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Forma de pagamento</ion-title>
+    </ion-toolbar>
+</ion-header>
+  
+  <ion-content [fullscreen]="false">
+      <ion-header  lines="none" class="ion-no-border header">
+        <img width="70%" src="../../assets/imgs/LOGOKL.png"/>
+        <h2>FORMAS DE PAGAMENTO</h2>
+      </ion-header>
+      <div class="main" *ngFor=" let pix of listaPIX">
+          <h3>DÉPOSITO BANCÁRIO, TRANSFERÊNCIA E PIX</h3>
+          <label>- Após pagamento ou transferência, fazer amortização pelo aplicativo.</label>
+          <h2>{{ pix.chave_pix }} <ion-icon 
+            (click)="copyData(pix.chave_pix)" name="copy-outline"></ion-icon></h2>
+          <label class="sociedade">{{ pix.nome_pix }} 
+           
+              
+
+          </label>
+          <label class="pj">{{ pix.tipo_pix }}: {{ pix.chave_pix }}</label>
+      </div>
+      <div class="ft">
+        <div class="site">
+          <label>WWWW.KLRENTACAR.COM.BR</label>
+        </div>
+        <div class="lojas">
+          <div class="lj">
+            <label class="title">Matriz Manaus</label>
+            <label class="name">PRAÇA 14 DE JANEIRO</label>
+            <label class="title">(92) 98400-8890</label>
+          </div>
+          <div class="lj">
+            <label class="title">Matriz Manaus</label>
+            <label class="name">PRAÇA 14 DE JANEIRO</label>
+            <label class="title">(92) 98400-8890</label>
+  
+          </div>
+          <div class="lj">
+            <label class="title">Matriz Manaus</label>
+            <label class="name">PRAÇA 14 DE JANEIRO</label>
+            <label class="title">(92) 98400-8890</label>
+          </div>
+          <div class="lj">
+            <label class="title">Matriz Manaus</label>
+            <label class="name">PRAÇA 14 DE JANEIRO</label>
+            <label class="title">(92) 98400-8890</label>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+  
+  </ion-content>
+  

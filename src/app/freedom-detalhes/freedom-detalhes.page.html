@@ -1,0 +1,225 @@
+<!--se o cliente estiver logado -->
+<ion-header *ngIf="clienteLogado === true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button style="color:#fff ;" defaultHref="/freedom"></ion-back-button>
+      <ion-title style="font-size:14px ;"></ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!--se o cliente nao estiver logado -->
+<ion-header *ngIf="clienteLogado === false">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button style="color:#fff ;" defaultHref="/freedom"></ion-back-button>
+      <ion-title style="font-size:14px ;">{{modelo_car_klfree}}</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="clienteLogado === true">
+  <ion-card class="carde">
+    <ion-card-header>
+      <ion-card-subtitle>{{modelo_car_klfree}}</ion-card-subtitle>
+      <ion-slides pager="true" [options]="slideOpts">
+        <ion-slide *ngFor="let item of itens">
+          <ion-img src="{{url_img_car}}{{item.img_car}}"></ion-img>
+        </ion-slide>
+      </ion-slides>
+      <ion-card-subtitle>imagens ilustrativas...</ion-card-subtitle>
+
+      <!--<ion-img src="{{url_img_car}}{{imagem}}"></ion-img>-->
+      <!--<ion-card-title>  {{id}}</ion-card-title>    
+        <ion-card-title> {{ valormax | currency:'BRL':'symbol':'0.2-2':'pt'}}</ion-card-title>-->
+
+
+      <ion-card-title><i> {{ valorAPagar | currency:'BRL':'symbol':'0.2-2':'pt'}}</i></ion-card-title>
+    </ion-card-header>
+    <ion-item>
+      <ion-textarea ngDefaultControl [(ngModel)]="descricao_reserva" [value]="descricao_reserva"
+        placeholder="Qual a finalidade do uso do veículo..?">
+      </ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="locate"></ion-icon>&nbsp;GPS &nbsp; R$: 69,99
+      </ion-label>
+      <ion-toggle (ionChange)="gps($event)" [(ngModel)]="gps" name="gps" slot="end" ngDefaultControl disabled="true"
+        color="primary"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="partly-sunny"></ion-icon>&nbsp;Insulfilm&nbsp; R$: 13,90
+      </ion-label>
+      <ion-toggle value="13.90" (ionChange)="insulfime($event)" [(ngModel)]="insulfilme" name="insulfilme" slot="end"
+        color="primary">
+      </ion-toggle>
+    </ion-item>
+
+    <div class="ops">
+
+      <ion-list class="list">
+        <ion-item class="item">
+          <ion-select (ionChange)="calcularReserva()" #state name="state" interface="action-sheet" placeholder="Meses"
+            [(ngModel)]="fk_ano_klfree">
+            <ng-container *ngFor="let item of anos">
+              <ion-select-option *ngIf="item.ano_klfree == 1" ngDefaultControl [value]="item">
+                12 meses
+              </ion-select-option>
+
+              <ion-select-option *ngIf="item.ano_klfree == 2" ngDefaultControl [value]="item">
+                24 meses
+              </ion-select-option>
+
+              <ion-select-option *ngIf="item.ano_klfree == 3" ngDefaultControl [value]="item">
+                36 meses
+              </ion-select-option>
+
+              <ion-select-option *ngIf="item.ano_klfree == 4" ngDefaultControl [value]="item">
+                48 meses
+              </ion-select-option>
+            </ng-container>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-list class="list">
+        <ion-item class="item">
+          <ion-select (ionChange)="calcularReserva()" id="valor_km" interface="action-sheet" placeholder="Km(s)"
+            [(ngModel)]="fk_km_klfree">
+            <ion-select-option ngDefaultControl [value]="km" *ngFor="let km of kms">
+              Km {{km.km_klfreedom}} mil
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </div>
+    <ion-button (click)="salvarReservaTeste()" expand="block">ASSINAR MEU CARRO &nbsp;<ion-icon name="pencil-outline">
+      </ion-icon>
+    </ion-button>
+
+  </ion-card>
+
+  <!--MODAL CLIENTE SEM CADASTRO-->
+  <!--<ion-button expand="block" (click)="setOpen(true)">Open</ion-button>-->
+
+  <ion-modal [isOpen]="isModalOpen" (click)="setOpen(false)" (onClose)="home">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Reserva Realizada!</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="Fechar()">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding" style="text-align: justify ;">
+        <div class="logofreedom">
+          <img src="../../assets/imgs/logofreedom.png" />
+        </div>
+        <p>
+          Olá Estamos muitos Felizes em tê-lo conosco, Aguarde que um de nossas consultoras entrará em contato para
+          proseguirmos
+          como processo de assinatura do seu veículo !
+        </p>
+        <p><strong>Acompanhe o status da sua reserva na tela Inicial <ion-icon name="home"></ion-icon></strong></p>
+
+
+
+      </ion-content>
+    </ng-template>
+    <ion-button color="primary" (click)="Home">ÍNICIO</ion-button>
+
+  </ion-modal>
+
+</ion-content>
+
+
+<ion-content class="ion-padding" *ngIf="clienteLogado === false">
+  <ion-card class="carde">
+    <ion-card-header>
+      <ion-card-subtitle>{{modelo_car_klfree}}</ion-card-subtitle>
+      <ion-slides pager="true" [options]="slideOpts">
+        <ion-slide *ngFor="let item of itens">
+          <ion-img src="{{url_img_car}}{{item.img_car}}"></ion-img>
+        </ion-slide>
+      </ion-slides>
+      <ion-card-subtitle>imagens ilustrativas...</ion-card-subtitle>
+
+      <!--<ion-img src="{{url_img_car}}{{imagem}}"></ion-img>-->
+      <!--<ion-card-title>  {{id}}</ion-card-title>    
+        <ion-card-title> {{ valormax | currency:'BRL':'symbol':'0.2-2':'pt'}}</ion-card-title>-->
+
+
+      <ion-card-title><i> {{ valorAPagar | currency:'BRL':'symbol':'0.2-2':'pt'}}</i></ion-card-title>
+    </ion-card-header>
+    <ion-item>
+      <ion-textarea type="text" ngDefaultControl [(ngModel)]="descricao_reserva" [value]="descricao_reserva"
+        placeholder="Qual a finalidade do uso do veículo..?" required>
+
+
+      </ion-textarea>
+
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="locate"></ion-icon>&nbsp;GPS &nbsp; R$: 69,99
+      </ion-label>
+      <ion-toggle (ionChange)="gps($event)" [(ngModel)]="gps" name="gps" slot="end" ngDefaultControl disabled="true"
+        color="primary"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="partly-sunny"></ion-icon>&nbsp;Insulfilm&nbsp; R$: 13,90
+      </ion-label>
+      <ion-toggle value="13.90" (ionChange)="insulfime($event)" [(ngModel)]="insulfilme" name="insulfilme" slot="end"
+        color="primary">
+      </ion-toggle>
+    </ion-item>
+
+    <div class="ops">
+
+      <ion-list class="list">
+        <ion-item class="item">
+          <ion-select (ionChange)="calcularReserva()" #state name="state" interface="action-sheet" placeholder="Meses"
+          [(ngModel)]="fk_ano_klfree">
+          <ng-container *ngFor="let item of anos">
+            <ion-select-option *ngIf="item.ano_klfree == 1" ngDefaultControl [value]="item">
+              12 meses
+            </ion-select-option>
+
+            <ion-select-option *ngIf="item.ano_klfree == 2" ngDefaultControl [value]="item">
+              24 meses
+            </ion-select-option>
+
+            <ion-select-option *ngIf="item.ano_klfree == 3" ngDefaultControl [value]="item">
+              36 meses
+            </ion-select-option>
+
+            <ion-select-option *ngIf="item.ano_klfree == 4" ngDefaultControl [value]="item">
+              48 meses
+            </ion-select-option>
+          </ng-container>
+        </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-list class="list">
+        <ion-item class="item">
+          <ion-select (ionChange)="calcularReserva()" id="valor_km" interface="action-sheet" placeholder="Km(s)"
+            [(ngModel)]="fk_km_klfree">
+            <ion-select-option ngDefaultControl [value]="km" *ngFor="let km of kms">
+              Km {{km.km_klfreedom}} mil
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </div>
+    <ion-button (click)="salvarReservaTeste()" expand="block">ASSINAR MEU CARRO &nbsp;<ion-icon name="pencil-outline">
+      </ion-icon>
+    </ion-button>
+
+  </ion-card>
+
+</ion-content>

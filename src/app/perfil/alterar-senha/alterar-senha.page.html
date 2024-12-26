@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="tabs/perfil"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Alterar Senha</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card class="ionForm">
+        <div>
+            <br/>
+            <ion-item>
+                <ion-label floating>Email:</ion-label>
+                <ion-input type="email" [(ngModel)]="cliente.email" id="email" [readonly]="true" required></ion-input>
+                <ion-icon name="lock" item-right></ion-icon>
+            </ion-item>
+            <br/>
+            <ion-item>
+                <ion-input [(ngModel)]="cliente.senha" type="{{atualpasswordtype}}" placeholder="Senha Atual" required></ion-input>
+                <ion-button clear class="eye-icon-btn" type="button" item-right (click)="manageatualPassword()">
+                    <ion-icon name="{{atualpasseye}}"></ion-icon>
+                </ion-button>
+            </ion-item>
+            <br/>
+            <ion-item>
+                <ion-input [(ngModel)]="cliente.nova_senha" placeholder="Nova Senha" minlength="8" id="senha" type="{{passwordtype}}" required></ion-input>
+                <ion-button clear class="eye-icon-btn" type="button" item-right (click)="managePassword()">
+                    <ion-icon name="{{passeye}}"></ion-icon>
+                </ion-button>
+            </ion-item>
+            <br/>
+            <ion-item>
+                <ion-input [(ngModel)]="confirmarSenha" placeholder="Confirmar Senha" id="cnfpass" type="{{cnfpasswordtype}}" required></ion-input>
+                <ion-button clear class="eye-icon-btn" type="button" item-right (click)="managecnfPassword()">
+                    <ion-icon name="{{cnfpasseye}}"></ion-icon>
+                </ion-button>
+            </ion-item>
+            <br/>
+            <div class="divBtn">
+                <ion-button type="button" expand="block" (click)="atualizarSenha()">Atualizar</ion-button>
+            </div>
+            <br/>
+        </div>
+    </ion-card>
+</ion-content>

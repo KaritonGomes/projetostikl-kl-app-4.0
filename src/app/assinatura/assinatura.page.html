@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>assinatura</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="card round">
+        <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()"></signature-pad>
+        <ion-button color="primary" (click)="salvar()">
+            Salvar Assinatura
+        </ion-button>
+        <ion-button color="danger" (click)="limpar()">
+            Limpar
+        </ion-button>
+    </div>
+</ion-content>

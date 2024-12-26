@@ -1,0 +1,113 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-back-button style="color:#fff ;" defaultHref="/intro"></ion-back-button>
+      <ion-title style="font-size:14px ;">Carro por Assinatura</ion-title>
+    </ion-buttons>
+    <ion-title></ion-title>
+    <ion-buttons slot="primary">
+      <ion-button class="info" (click)="setOpen(true)"><ion-icon name="information-circle-outline"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>KL FREEDOM</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">FECHAR</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding txt">
+
+          <h3>Carro por assinatura é KL FREEDOM</h3>
+          <p>A KL Freedom é o serviço de carro por assinatura da KL RENT A CAR com valor fixo mensal. 
+            Você paga uma parcela por mês e tem direito ao uso de um carro 0km por 12, 24, 36 ou 48 meses.</p>
+            <h3>O que é a KL FREEDOM</h3>
+        <p>
+          Você escolhe o veículo e o período que quer dirigir. Pronto ! Apartir de agora, as mensalidades do seu contrato serão 
+          fixas. Na Assinatura, estão inclusos os gastos com despachantes, IPVA, licenciamento, seguro, manutenção, depreciação 
+          e com a proteção do seu veículo.
+        </p>
+        <h3>Os Carros são zero km ?</h3>
+        <p>
+          Você escolhe o modelo, cor disponível e entregamos o carro novinho 0km para você, 
+          direto da fábrica e com documentação completa.
+        </p>
+        <h3>Como saber a melhor franquia de km para mim ?</h3>
+        <p>Se a KL Freedom for seu primeiro carro, pense nos trajetos que fará ao longo de um mês e tente calcular aproximadamente quantos quilômetros pretende rodar. Nossa franquia de 
+          quilometragem são de 1.000, 2.000, 3.000, 4.000 e 5.000 KM mensais, escolha o que mais combina com você.</p>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-header>
+
+<ion-content  class="ion-padding center">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button href="https://wa.me/5592984003929?text=Ol%C3%A1+Vim+app+e+gostaria+de+mais+informa%C3%A7%C3%B5es...">
+        <ion-icon name="logo-whatsapp"></ion-icon>
+      </ion-fab-button>
+  </ion-fab>
+  <ion-row class="busca">
+  
+</ion-row>
+<div *ngFor="let item of itens">
+  <ion-card class="carde">
+    <ion-card-header>
+      <ion-card-title class="model">{{item.modelo_car_klfree.split(' ').shift()}}</ion-card-title>
+      <div class="ass">
+        <div class="ass1">
+          <label>por assinatura</label>
+        </div>
+        <div class="ass2">
+          .
+        </div>
+      </div>
+
+      <div class="topo">
+        <div class="topo1">
+          {{item.calculo | currency:'BRL':'symbol':'0.2-2':'pt'}}
+        </div>
+          <div class="topo2">
+            <ion-img  src="../../assets/imgs/apps.png"></ion-img>
+            <label>NÃO PERMITIDO E OUTROS</label>
+          </div>
+      </div>
+
+<ion-img src="{{url_img_car}}{{item.imagem_car_klfree}}">{{url_img_car}}{{item.imagem_car_klfree}}</ion-img>
+<ion-card-subtitle>{{item.modelo_car_klfree}}</ion-card-subtitle>
+
+<div class="descricao">
+    <div class="txt">
+      <label class="title">na assinatura estão inclusos:</label>
+      <label>>&nbsp; IPVA e Documentação</label>
+      <label>>&nbsp; Manutenção e Revisões</label>
+      <label>>&nbsp; Carro Reserva</label>
+
+    </div>
+    <div class="txt2">
+      
+    </div>
+    
+<!--<ion-card-subtitle>Categoria - {{item.descricao_ctg}}</ion-card-subtitle>-->
+</div>
+
+    </ion-card-header>
+  
+  
+      <button   class="assinar"   (click)="car(item.id_car_klfree, item.modelo_car_klfree, item.valormax, item.imagem_car_klfree, item.calculo)">
+        EU QUERO ESTE</button>
+
+  </ion-card>
+
+
+
+
+</div>
+
+</ion-content>

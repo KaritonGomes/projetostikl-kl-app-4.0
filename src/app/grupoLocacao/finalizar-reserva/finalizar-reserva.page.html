@@ -1,0 +1,484 @@
+<ion-header *ngIf="clienteLogado === true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/nova-locacao/seguro-externo"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Concluir
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header *ngIf="clienteDeslogado === false">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/seguro-externo"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Concluir
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="clienteDeslogado === false" #deslogado id="deslogado" class="bounceIn card">
+    <ion-card>
+      <ion-card-header>
+        Pague na loja
+      </ion-card-header>
+      <ion-grid *ngIf="agregados.percentSeguroPlus > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Total
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao text-primary">
+                {{valorTotal + agregados.percentSeguroPlus | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-grid>
+
+      <ion-grid *ngIf="agregados.percentSeguroBasico > 0">
+
+        <ion-row>
+          <ion-col col-6>
+            <div class="formatacao text-success">
+              Total
+            </div>
+          </ion-col>
+          <ion-col col-6>
+            <div class="formatacao text-primary">
+              {{valorTotal + agregados.percentSeguroBasico | currency:'BRL':'symbol':'0.2-2':'pt'}}
+            </div>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+
+
+      <div class="sepador" *ngIf="desconto > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Desconto Bônus <br>{{titulo_desc}}
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao ">
+                {{desconto | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div class="sepador" *ngIf="desconto > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Total a pagar
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao " *ngIf="agregados.percentSeguroBasico > 0">
+                {{(valorTotal + agregados.percentSeguroBasico) - desconto | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+              <div class="formatacao " *ngIf="agregados.percentSeguroPlus > 0">
+                {{(valorTotal + agregados.percentSeguroPlus) - desconto | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ion-card>
+
+
+    <ion-card>
+      <form #form="ngForm">
+
+        <div class="form-row">
+          <div class="col-md-4 mb-3 ajuste">
+            <div class="input-group">
+              <div class="input-group-prepend ">
+                <span class="input-group-text" id="inputGroupPrepend">
+                  <ion-icon name="mail"></ion-icon>
+                </span>
+              </div>
+              <input type="text" class="form-control" id="validationCustomUsername" placeholder="Entrar com o email"
+                aria-describedby="inputGroupPrepend" [(ngModel)]="loginData.email" name="email_usu" type="email"
+                #email="ngModel" required required>
+            </div>
+          </div>
+
+          <ion-text color="danger">
+            <p [hidden]="email.valid || submitted == false" class="ion-padding-start">
+              Email é obrigatorio
+            </p>
+          </ion-text>
+          <!--------------------------validacao senh------------------------------------->
+
+          <div class="col-md-4 mb-3 ajuste">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend">
+                  <ion-icon name="key"></ion-icon>
+                </span>
+              </div>
+              <input type="password" class="form-control" id="validationCustomUsername" placeholder="Senha"
+                aria-describedby="inputGroupPrepend" placeholder="Senha" [(ngModel)]="loginData.senha" name="senha"
+                #senha="ngModel" required>
+
+            </div>
+          </div>
+          <div class="teste">
+            <ion-text color="danger">
+              <p [hidden]="senha.valid || submitted == false" class="ion-padding-start">
+                Senha é obrigatorio
+              </p>
+            </ion-text>
+          </div>
+        </div>
+
+        <div class="ion-text-center">
+          <button class="btn btn-success btn-card" type="submit" (click)="acessar(loginData)">LOGAR</button>
+        </div>
+
+        <div class="ion-text-center ion-margin-top bt">
+          <span class="paz" tappable>
+            <ion-text color="dark" (click)="criarConta()">
+              Novo aqui? <strong>Cadastre-se </strong>
+            </ion-text>
+          </span>
+        </div>
+        <p></p>
+      </form>
+    </ion-card>
+  </div>
+
+
+  <div *ngIf="clienteLogado === true ">
+    <ion-card class="content-card">
+      <ion-card-header>
+        <span class="text-success">Grupo Escolhido {{grupo}}</span>
+      </ion-card-header>
+      <div class="sepador">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Data retirada
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{dataRetirada}} às {{horaRetirada}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div class="sepador" *ngIf="dias > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Quantidade dias
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{dias}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="sepador" *ngIf="agregados.categoria === 'tarifaCheia' ">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Valor diária
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{agregados.valorGrupo | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="sepador" *ngIf="agregados.categoria === 'promocional' ">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Valor diária
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{agregados.calcularDiariaPromocao | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="sepador ">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Lavagem
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{lavagem  | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="sepador" *ngIf="doacao > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Doação
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{doacao | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+
+      <div class="sepador" *ngIf="agregados.percentSeguroBasico > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Seguro básico
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{agregados.percentSeguroBasico | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div class="sepador" *ngIf="agregados.percentSeguroPlus > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Seguro premium
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{agregados.percentSeguroPlus | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="sepador" *ngIf="agregados.gps > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Gps
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{agregados.gps | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div class="sepador" *ngIf="agregados.cadeiraBebe > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Cadeira bebê
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{agregados.cadeiraBebe | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div class="sepador" *ngIf="agregados.cadeiraBebeConforto > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Bebê conforto
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{agregados.cadeiraBebeConforto | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div class="sepador" *ngIf="agregados.assentoEleva > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Assento Elevação
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao">
+                {{agregados.assentoEleva | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+
+      <div class="sepador" *ngIf="valorTotalCondutor > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Valor condutor adicional
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao ">
+                {{valorTotalCondutor | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div class="sepador" *ngIf="valorTotalAce > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Valor acessórios adicional
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao ">
+                {{valorTotalAce | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="sepador" *ngIf="agregados.percentSeguroBasico > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Total
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao ">
+                {{valorTotal + agregados.percentSeguroBasico | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="sepador" *ngIf="agregados.percentSeguroPlus > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Total
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao ">
+                {{valorTotal + agregados.percentSeguroPlus | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div class="sepador" *ngIf="desconto > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Desconto Bônus <br>{{titulo_desc}}
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao ">
+                {{desconto | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div class="sepador" *ngIf="desconto > 0">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <div class="formatacao text-success">
+                Total a pagar
+              </div>
+            </ion-col>
+            <ion-col col-6>
+              <div class="formatacao " *ngIf="agregados.seguroBasico > 0">
+                {{(valorTotal + agregados.percentSeguroBasico) - desconto | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+              <div class="formatacao " *ngIf="agregados.seguroPlus > 0">
+                {{(valorTotal + agregados.percentSeguroPlus) - desconto | currency:'BRL':'symbol':'0.2-2':'pt'}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+
+      <ion-card-content>
+      </ion-card-content>
+      <div class="ion-text-end">
+        <ion-button (click)="confirmar()">Confirmar</ion-button>
+      </div>
+      <p></p>
+    </ion-card>
+  </div>
+
+</ion-content>

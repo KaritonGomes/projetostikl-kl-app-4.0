@@ -1,0 +1,396 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="back-circle"></div>
+    <ion-title class="ion-text-center custon-font"> Cadastro</ion-title>
+
+    <!--<ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>-->
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="tabs/locacao"></ion-back-button>
+      </ion-buttons>
+    
+    <ion-buttons *ngIf="slideAtual != 0" slot="start">
+      <ion-button (click)="prev()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons *ngIf="slideAtual != 2" slot="end">
+      <ion-button (click)="next()">
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+
+ 
+  <ion-slides #signupSlider pager >
+    <ion-slide (ionSlideDidChange)="ionSlideDidChange()">
+      <form novalidate >
+        <ion-card  >
+          <ion-list>
+
+            <ion-item [formGroup]="primeiroSlide">
+              <ion-label position="floating">NOME</ion-label>
+              <ion-input type="text" [(ngModel)]="cliente.nome" id="nome" formControlName="UserNome" name="nome">
+              </ion-input>
+            </ion-item>
+
+            <ion-item lines="none"
+              *ngIf="(primeiroSlide.get('UserNome').hasError('required') ) && primeiroSlide.get('UserNome').touched">
+              <div class="error-message"
+                *ngIf="primeiroSlide.get('UserNome').hasError('required') && primeiroSlide.get('UserNome').touched">
+                Preencha o nome de usuário
+              </div>
+            </ion-item>
+
+            <ion-item [formGroup]="primeiroSlide">
+              <ion-label position="floating">CPF</ion-label>
+              <ion-input type="tel" id="cpf" [brmasker]="{person: true}" formControlName="UserCpf" name="cpf"
+                [(ngModel)]="cliente.cpf"></ion-input>
+            </ion-item>
+
+            <ion-item lines="none"
+              *ngIf="(primeiroSlide.get('UserCpf').hasError('required') || primeiroSlide.get('UserCpf').hasError('invalido') || primeiroSlide.get('UserCpf').hasError('cpfUsed') ) && primeiroSlide.get('UserCpf').touched">
+              <div class="error-message"
+                *ngIf="primeiroSlide.get('UserCpf').hasError('required') && primeiroSlide.get('UserCpf').touched">
+                Preencha o cpf do usuário
+              </div>
+              <div class="error-message"
+                *ngIf="primeiroSlide.get('UserCpf').hasError('invalido') && primeiroSlide.get('UserCpf').touched">
+                Insira um CPF/CNPJ válido
+              </div>
+              <div class="error-message"
+                *ngIf="primeiroSlide.get('UserCpf').hasError('cpfUsed') && primeiroSlide.get('UserCpf').touched">
+                Cpf já cadastrado
+              </div>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">FONE</ion-label>
+              <ion-input type="tel" id="fone" [brmasker]="{phone: true}" name="fone" [(ngModel)]="cliente.fone">
+              </ion-input>
+            </ion-item>
+          
+
+            <ion-item [formGroup]="primeiroSlide">
+              <ion-label position="floating">EMAIL</ion-label>
+              <ion-input type="email" [(ngModel)]="cliente.email" formControlName="UserEmail" id="email" name="email">
+              </ion-input>
+            </ion-item>
+            <ion-item lines="none"
+              *ngIf="(primeiroSlide.get('UserEmail').hasError('required') || primeiroSlide.get('UserEmail').hasError('email') || primeiroSlide.get('UserEmail').hasError('emailUsed') ) && primeiroSlide.get('UserEmail').touched">
+              <div class="error-message"
+                *ngIf="primeiroSlide.get('UserEmail').hasError('required') && primeiroSlide.get('UserEmail').touched">
+                Email é obrigatório
+              </div>
+              <div class="error-message"
+                *ngIf="primeiroSlide.get('UserEmail').hasError('email') && primeiroSlide.get('UserEmail').touched">
+                Insira um email válido
+              </div>
+              <div class="error-message"
+                *ngIf="primeiroSlide.get('UserEmail').hasError('emailUsed') && primeiroSlide.get('UserEmail').touched">
+                email já cadastrado
+              </div>
+            </ion-item>
+
+
+            <div [formGroup]="primeiroSlide">
+              <ion-item class="itemForm" formGroupName="matching_passwords">
+                <ion-label>
+                  <ion-icon ios="ios-unlock" md="md-unlock"></ion-icon>
+                </ion-label>
+                <ion-input [(ngModel)]="cliente.senha" name="senha_usu" id="senha_usu" formControlName="Password"
+                  type="{{ passwordtype }}" placeholder="Senha no minimo 8 digitos">
+                </ion-input>
+                <ion-button ion-button clear class="eye-icon-btn" type="button" item-right (click)="managePassword()">
+                  <ion-icon name="{{ passeye }}"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </div>
+
+            <ion-item lines="none"
+              *ngIf="(primeiroSlide.get('matching_passwords').get('Password').hasError('required') || primeiroSlide.get('matching_passwords').get('Password').hasError('minlength') ) && primeiroSlide.get('matching_passwords').get('Password').touched">
+              <div class="error-message"
+                *ngIf="primeiroSlide.get('matching_passwords').get('Password').hasError('required') && primeiroSlide.get('matching_passwords').get('Password').touched">
+                Senha é obrigatório
+              </div>
+              <div class="error-message"
+                *ngIf="primeiroSlide.get('matching_passwords').get('Password').hasError('minlength') && primeiroSlide.get('matching_passwords').get('Password').touched">
+                Senha deve ter no minímo 8 caracteres
+              </div>
+            </ion-item>
+            <div [formGroup]="primeiroSlide">
+              <ion-item class="itemForm" formGroupName="matching_passwords">
+                <ion-label>
+                  <ion-icon ios="ios-unlock" md="md-unlock"></ion-icon>
+                </ion-label>
+                <ion-input autocapitalize="off" autocomplete="off" [(ngModel)]="confirmarSenha" id="cnfpass"
+                  name="confirmarSenha" type="{{ cnfpasswordtype }}" placeholder=" Confirmar Senha *"
+                  formControlName="ConfirmPassword">
+                </ion-input>
+                <ion-button ion-button clear class="eye-icon-btn" type="button" item-right
+                  (click)="managePassword()">
+                  <ion-icon name="{{ cnfpasseye }}"></ion-icon>
+                </ion-button>
+              </ion-item> 
+            </div>
+
+            <ion-item lines="none"
+              *ngIf="(primeiroSlide.get('matching_passwords').get('ConfirmPassword').hasError('required') ) && primeiroSlide.get('matching_passwords').get('ConfirmPassword').touched">
+              <div class="error-message"
+                *ngIf="primeiroSlide.get('matching_passwords').get('ConfirmPassword').hasError('required') && primeiroSlide.get('matching_passwords').get('ConfirmPassword').touched">
+                É necessário confirmar a senha
+              </div>
+            </ion-item>
+
+            <ion-item lines="none"
+              *ngIf="primeiroSlide.get('matching_passwords').hasError('areEqual') && !primeiroSlide.get('matching_passwords').get('ConfirmPassword').hasError('required') 
+              && !primeiroSlide.get('matching_passwords').get('Password').hasError('required')
+              && (primeiroSlide.get('matching_passwords').get('Password').touched || primeiroSlide.get('matching_passwords').get('ConfirmPassword').touched )">
+              <div class="error-message">
+                Senhas não conferem
+              </div>
+            </ion-item>
+            <br />
+            <ion-button type="submit" expand="block" [disabled]="primeiroSlide.invalid" (click)="next()">
+              Próximo Passo
+            </ion-button>
+
+          </ion-list>
+        </ion-card>
+      </form>
+    </ion-slide>
+    <ion-slide>
+      <h6 class="hform">Preencha os dados corretamente. <br /> Eles são muitos importante para nossa análise. </h6>
+
+      <ion-card>
+
+        <ion-list padding>
+          <form novalidate>
+            <ion-item [formGroup]="segundoSlide">
+              <ion-label position="floating">Nome Completo da mãe</ion-label>
+              <ion-input [(ngModel)]="cliente.mae" formControlName="NomeMae" name="mae" type="text" required>
+              </ion-input>
+            </ion-item>
+            <br />
+            <ion-item [formGroup]="segundoSlide">
+              <ion-label position="floating">Número do RG</ion-label>
+              <ion-input [(ngModel)]="cliente.rg" formControlName="NumeroRg" name="rg" type="number" required>
+              </ion-input>
+            </ion-item>
+            <br />
+
+            <ion-item [formGroup]="segundoSlide">
+              <ion-label position="floating">Órgão Expeditor</ion-label>
+              <ion-select [(ngModel)]="cliente.orgao_exepeditor" name="orgao_exepeditor" formControlName="OrgaoExpRg" >
+                <ion-select-option value="mte">MTE</ion-select-option>
+                <ion-select-option value="pof">POF</ion-select-option>
+                <ion-select-option value="ssp">SSP</ion-select-option>
+                <ion-select-option value="seseg">SESEG</ion-select-option>
+                <ion-select-option value="sjs">SJS</ion-select-option>
+                <ion-select-option value="sjts">SJTS</ion-select-option>
+                <ion-select-option value="pc">PC</ion-select-option>
+                <ion-select-option value="pm">PM</ion-select-option>
+                <ion-select-option value="sds">SDS</ion-select-option>
+                <ion-select-option value="outros">OUTROS</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <br />
+            <ion-item [formGroup]="segundoSlide">
+              <ion-label position="floating">Sexo</ion-label>
+              <ion-select interface="action-sheet"  [(ngModel)]="cliente.sexo_cli" name="sexo_cli" id="sexo_cli" formControlName="sex" >
+                <ion-select-option *ngFor="let item of sexualidade" [value]="item">{{item}}</ion-select-option >
+              </ion-select>
+            </ion-item>
+            <br />
+            <ion-item [formGroup]="segundoSlide">
+              <ion-label position="floating">Estado Civil</ion-label>
+              <ion-select interface="action-sheet"  [(ngModel)]="cliente.estado_civil" name="estado_civil" id="estado_civil" formControlName="civil" >
+                <ion-select-option *ngFor="let item of estadoCivil" [value]="item">{{item}}</ion-select-option >
+              </ion-select>
+            </ion-item>
+            <br />
+            <ion-item [formGroup]="segundoSlide">
+              <ion-label position="floating">Número Habilitação</ion-label>
+              <ion-input [(ngModel)]="cliente.habilitacao" name="habilitacao" type="number" formControlName="NumeroHab" 
+                >
+              </ion-input>
+            </ion-item>
+            <br />
+
+            <ion-item [formGroup]="segundoSlide">
+              <ion-label position="floating">Validade Habilitação</ion-label><br>
+              <ion-datetime cancelText="Cancelar" doneText="Selecionar" displayFormat="DD/MM/YYYY"
+                [max]="formatDate(dataMaxima)" [min]="dataMinimaFormatada(dataMinima)" formControlName="ValidadeHab" 
+                [(ngModel)]="cliente.validade_hab" name="validade_hab">{{ cliente.validade_hab | date: "dd/MM/yyyy" }}
+              </ion-datetime>
+            </ion-item>
+            <br />
+            <ion-item [formGroup]="segundoSlide">
+              <ion-label>UF da CNH</ion-label>
+              <ion-select [(ngModel)]="cliente.uf_cnh" name="uf_cnh" formControlName="UfCnh" >
+                <ion-select-option value="AC">AC</ion-select-option>
+                <ion-select-option value="AL">AL</ion-select-option>
+                <ion-select-option value="AM">AM</ion-select-option>
+                <ion-select-option value="AP">AP</ion-select-option>
+                <ion-select-option value="BA">BA</ion-select-option>
+                <ion-select-option value="CE">CE</ion-select-option>
+                <ion-select-option value="DF">DF</ion-select-option>
+                <ion-select-option value="ES">ES</ion-select-option>
+                <ion-select-option value="GO">GO</ion-select-option>
+                <ion-select-option value="MA">MA</ion-select-option>
+                <ion-select-option value="MT">MT</ion-select-option>
+                <ion-select-option value="MS">MS</ion-select-option>
+                <ion-select-option value="MG">MG</ion-select-option>
+                <ion-select-option value="PA">PA</ion-select-option>
+                <ion-select-option value="PB">PB</ion-select-option>
+                <ion-select-option value="PR">PR</ion-select-option>
+                <ion-select-option value="PE">PE</ion-select-option>
+                <ion-select-option value="PI">PI</ion-select-option>
+                <ion-select-option value="RJ">RJ</ion-select-option>
+                <ion-select-option value="RN">RN</ion-select-option>
+                <ion-select-option value="RS">RS</ion-select-option>
+                <ion-select-option value="RO">RO</ion-select-option>
+                <ion-select-option value="RR">RR</ion-select-option>
+                <ion-select-option value="SC">SC</ion-select-option>
+                <ion-select-option value="SE">SE</ion-select-option>
+                <ion-select-option value="SP">SP</ion-select-option>
+                <ion-select-option value="TO">TO</ion-select-option>
+
+              </ion-select>
+            </ion-item>
+            <br />
+            <ion-item [formGroup]="segundoSlide">
+              <ion-label position="floating">Data de Nascimento:</ion-label><br>
+              <ion-datetime cancelText="Cancelar" doneText="Selecionar" displayFormat="DD/MM/YYYY"
+          
+                [(ngModel)]="cliente.data_nascimento" name="data_nascimento" formControlName="DataNasc" required>
+                {{cliente.data_nascimento | date: "dd/MM/yyyy"}}
+              </ion-datetime>
+              <ion-tem></ion-tem>
+            </ion-item>
+            <br />
+            <ion-item [formGroup]="segundoSlide">
+              <ion-label position="floating">Profissão</ion-label>
+              <ion-input [(ngModel)]="cliente.profissao" name="profissao" type="text" formControlName="Profissao" required>
+              </ion-input>
+            </ion-item>
+            <br />
+
+            <ion-button (click)="next()" [disabled]="segundoSlide.invalid" color="primary" expand="block">
+              Próximo Passo
+            </ion-button>
+
+          </form>
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <ion-list>
+          <form novalidate>
+            <h6 style="text-align: center"> O cep deve está atualizado</h6>
+
+            <ion-item [formGroup]="terceiroSlide">
+              <ion-label position="floating">cep</ion-label>
+              <ion-input class="endereco" type="tel" name="cep" (ionChange)="buscarCep()" [(ngModel)]="cliente.cep"
+                formControlName="CepCli" >
+              </ion-input>
+            </ion-item>
+            <br />
+
+            <ion-item [formGroup]="terceiroSlide">
+              <ion-label position="floating">Endereço</ion-label>
+              <ion-input class="endereco" type="text" formControlName="RuaCli" name="logradouro"
+                [(ngModel)]="cliente.logradouro" >
+              </ion-input>
+            </ion-item>
+            <br />
+
+            <ion-item [formGroup]="terceiroSlide">
+              <ion-label position="floating">Número</ion-label>
+              <ion-input class="endereco" type="number" name="numero" formControlName="NumeroCasa"
+                [(ngModel)]="cliente.numero" >
+              </ion-input>
+            </ion-item>
+
+            <br />
+            <ion-item [formGroup]="terceiroSlide">
+              <ion-label position="floating">Bairro</ion-label>
+              <ion-input class="endereco" type="text" name="bairro" formControlName="Bairro"
+                [(ngModel)]="cliente.bairro" >
+              </ion-input>
+            </ion-item>
+
+            <ion-item [formGroup]="terceiroSlide">
+              <ion-label position="floating">Cidade</ion-label>
+              <ion-input class="endereco" type="text" name="localidade" formControlName="Cidade"
+                [(ngModel)]="cliente.localidade" >
+              </ion-input>
+            </ion-item>
+            <br />
+            <ion-item [formGroup]="terceiroSlide">
+              <ion-label position="floating">Estado</ion-label>
+              <ion-input class="endereco" type="text" name="uf" formControlName="Estado" [(ngModel)]="cliente.uf">
+              </ion-input>
+            </ion-item>
+            <br />
+            <ion-item [formGroup]="terceiroSlide">
+              <ion-label position="floating">Complemento</ion-label>
+              <ion-input class="endereco" type="text" name="complemento" [(ngModel)]="cliente.complemento"
+                formControlName="Complemento" placeholder="ex: casa, apt, bloco etc...">
+              </ion-input>
+            </ion-item>
+            <br />
+            <ion-item [formGroup]="terceiroSlide">
+              <ion-label position="floating">Nacionalidade</ion-label>
+              <ion-select name="nacionalidade" [(ngModel)]="cliente.nacionalidade" formControlName="Nacionalidade">
+                <ion-select-option value="brasileiro">Brasileiro</ion-select-option>
+                <ion-select-option value="estrangeiro">Estrangeiro</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <br />
+
+            <div [formGroup]="terceiroSlide" class="div-box">
+              <div class="div-box-checkbox">
+                <ion-checkbox
+                  slot="start"
+                  [(ngModel)]="cliente.contrato"
+                  formControlName="UserTermo"
+                  id="contrato"
+                  name="contrato"
+                ></ion-checkbox>
+              </div>
+              
+                <div (click)="openPdf()">
+                <a
+                  ><b style="color: #000; font-size: 10px;"
+                    >&nbsp;&nbsp;Ao criar sua conta, você concorda os
+                  </b>
+                  <b style="color: blue; font-size: 11px;">Contratos</b>
+                 
+                  </a
+                >
+              </div>
+             
+            </div>
+           <br />
+           <div *ngIf="desabilita === false">
+            <ion-button  expand="block" [disabled]="terceiroSlide.invalid" (click)="termoUso(cliente)">
+              Finalizar Cadastro
+            </ion-button>
+
+           </div>
+           
+          </form>
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>

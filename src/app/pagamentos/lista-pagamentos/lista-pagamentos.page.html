@@ -1,0 +1,74 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Meu Pedido Pagamento</ion-title>
+
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-refresher (ionRefresh)="atualiza($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslise par  a baixo para atualizar" refreshingSpinner="circles" refreshingText="Atualizando...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+
+    <ion-card style=" background-color: #FFFFFF;">
+        <ion-card-header class="cartao-bg borda" *ngFor="let pagamento of listaPag | slice: 0:1; let i = index">
+            <div *ngIf="pagamento.status_ped_am == 'reprovado' || pagamento.status_ped_am == 'aprovado' || pagamento.status_ped_am == 'aberto' || pagamento.status_ped_am == 'aguardando' "> </div>
+            <div *ngIf="pagamento.faltaFotos == '1'  || pagamento.faltaFotos == '0' "></div>
+            <div *ngIf="pagamento.faltaAutorizacao == '1'  || pagamento.faltaAutorizacao == '0' "></div>
+            <div class="div">Pedido:&nbsp; {{ pagamento.id_ped_am}}</div>
+            <div class="div">Locação:&nbsp; {{ pagamento.id_loc_ped_am}}</div>
+            <div class="div">Pagamento:&nbsp; {{pagamento.data_ped_am | date: "dd/MM/yyyy HH:mm"}}</div>
+            <div class="div">Qtd dias paga:&nbsp; {{ pagamento.dias_normais_pg | currency:'BRL':true:'1.2-2' }}</div>
+            <div class="div">Valor diária:&nbsp;{{ pagamento.carroDiaria | currency:'BRL':true:'1.2-2'}}</div>
+            <div class="div">Total pago:&nbsp;<b> {{ pagamento.total_pago | currency:'BRL':true:'1.2-2' }}</b></div>
+            <div><b *ngIf="pagamento.status_ped_am == 'pendente'" style="color: yellow;">{{pagamento.status_ped_am }} &nbsp;</b> </div>
+
+            <div><b *ngIf="pagamento.status_ped_am == 'aberto'" style="color: orangered;">
+                      <b *ngIf="expirado === false">Pagamento não finalizado</b>
+                <b *ngIf="expirado === true"> Pagamento não finalizado</b>
+                <!-- <div class="p-2 div-tempo" *ngIf="expirado === false">
+                        <div id="clockdiv">
+                          <div>
+                            <span class="days">{{tempoRestante}}</span>
+                            <ion-button color="dark"  (click)="finalizarPag(pagamento.id_loc_ped_am, pagamento.id_ped_am)">
+                              Finalizar Pagamento
+                            </ion-button>
+                          </div>
+                        </div>
+                      </div>-->
+
+
+                </b>
+            </div>
+
+            <div><b *ngIf="pagamento.status_ped_am == 'aprovado'" style="color: green;">{{pagamento.status_ped_am }}</b></div>
+            <div><b *ngIf="pagamento.status_ped_am == 'reprovado'" style="color: red;">{{pagamento.status_ped_am }}</b></div>
+
+            <ion-segment *ngIf=" pagamento.status_ped_am == 'aguardando' " style="color: orangered;">
+                <ion-segment-button color="primary" *ngIf="pagamento.faltaFotos == '1' " (click)="faltaFotoVeiculo(pagamento.id_ped_am)">
+                    <ion-button color="primary">foto carro</ion-button>
+                </ion-segment-button>
+                <ion-segment-button *ngIf="pagamento.faltaFotos == '1' " (click)="faltaDeclaracao(pagamento.id_ped_am, pagamento.id_loc_ped_am)">
+                    <ion-button>Declaração</ion-button>
+                </ion-segment-button>
+            </ion-segment>
+        </ion-card-header>
+    </ion-card>
+
+    <!--<ion-card (click)="listaPagamento()">
+            <ion-card-content style="border: 3px solid orange;">
+              <h1 class="text-center" style="color: #000;">Lista de Pagamentos</h1>
+            </ion-card-content>
+          </ion-card>-->
+
+
+    <ion-fab vertical="bottom" horizontal="end">
+        <ion-fab-button color="primary" (click)="irLocacao()">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

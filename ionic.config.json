@@ -1,0 +1,9 @@
+{
+  "name": "kl-app-4.0",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "addcae31"
+}

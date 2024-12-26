@@ -1,0 +1,54 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="tabs/home"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Solicitação de reserva </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <br />
+
+    <ion-card>
+        <ion-item class="ion-activated">
+            <ion-icon name="apps" slot="start"></ion-icon>
+            <ion-label>Categoria: {{categoria}}</ion-label>
+        </ion-item>
+        <ion-item class="ion-activated">
+            <ion-icon name="home" slot="start"></ion-icon>
+            <ion-label>Loja: {{loja}}</ion-label>
+        </ion-item>
+        <ion-item class="ion-activated">
+            <ion-icon name="calendar" slot="start"></ion-icon>
+            <ion-label>Data Solicitada: {{data_agen | date: "dd/MM/yyyy"}}</ion-label>
+        </ion-item>
+        <ion-item class="ion-activated">
+            <ion-icon name="clock" slot="start"></ion-icon>
+            <ion-label>Hora: {{hora}}</ion-label>
+        </ion-item>
+
+        <ion-item class="ion-activated">
+            <ion-icon name="contacts" slot="start"></ion-icon>
+            <ion-label>Grupo: {{grupo}}</ion-label>
+        </ion-item>
+
+        <ion-item>
+            <ion-icon name="logo-model-s" slot="start"></ion-icon>
+            <ion-label>{{desc_grupo_car}}</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="color-wand" slot="start"></ion-icon>
+            <ion-label *ngIf="seguro_escolhido === '1' ">Seguro Básico</ion-label>
+            <ion-label *ngIf="seguro_escolhido === '2' ">Seguro Premium</ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="status !== 'pendente' ">
+            <ion-input> Motivo do cancelamento: {{motivo_cancel}}</ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-textarea>Obs: Prezado Cliente <b>{{nome_cli}}.</b> <br>Solicitação sujeita análise para concluir a reserva. Aguarde o contato de uma de nossas consultoras para concluir o agendamento. </ion-textarea>
+        </ion-item>
+    </ion-card>
+
+</ion-content>

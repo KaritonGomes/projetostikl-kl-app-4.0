@@ -1,0 +1,38 @@
+<div class="card" style="width: 17rem;">
+  <div class="ion-text-center" (click)="close()">
+    <ion-icon size="large" color="danger" name="close"></ion-icon>
+  </div>
+  <div class="div-img">
+  <img class="card-img-top" [src]="lista.img || 'assets/imgs/substituta.png'" alt="Card image cap">
+  
+</div>
+<table class="table table-striped">
+  
+  <tbody>
+   
+    <tr>
+      <td>Combustível</td>
+      <td> {{lista.combustivel}}</td>
+    </tr>
+    <tr>
+      <td>Direção</td>
+      <td>{{lista.direcao}}</td>
+    </tr>
+    <tr>
+      <td>Portas</td>
+      <td> {{lista.portas_car}}</td>
+    </tr>
+    <tr>
+      <td>Câmbio</td>
+      <td>{{lista.cambio}}</td>
+    </tr>
+    
+    <tr>
+      <td>Opcionais</td>
+      <td> {{lista.opcionais_car}}</td>
+    </tr>
+   
+  </tbody>
+</table>
+  
+</div>

@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Perfil</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslise para baixo para atualizar"
+            refreshingSpinner="circles" refreshingText="Atualizando...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <br />
+    <div align="center">
+        <img class="profile" [src]="fotoRemota">
+        <ion-button fill="clear" expand="full" *ngIf="fotoPerfil?.data && fotoPerfil?.salvada == 1"
+            (click)="upload(fotoPerfil)">
+            <ion-icon slot="start" name="cloud-upload"></ion-icon>
+            Salvar
+        </ion-button>
+        <!-- <ion-button fill="clear" expand="full" (click)="tirarFoto()">
+            <ion-icon slot="start" name="camera"></ion-icon>
+            Alterar foto
+        </ion-button> -->
+    </div>
+    <ion-card class="cardForm">
+
+        <ion-list>
+
+            <ion-item (click)="dadosPessoais()">
+                <ion-label>
+                    <ion-icon name="person-outline"></ion-icon>&nbsp;Dados Pessoais
+                </ion-label>
+            </ion-item>
+            <br />
+            <ion-item (click)="alterarSenha()">
+                <ion-label>
+                    <ion-icon name="md-lock"></ion-icon>&nbsp;&nbsp;Alterar Senha
+                </ion-label>
+            </ion-item>
+            <br />
+            <ion-item (click)="excluirConta()">
+                <ion-label>
+                    <ion-icon name="trash"></ion-icon>&nbsp;&nbsp;Deletar Conta
+                </ion-label>
+            </ion-item>
+
+        </ion-list>
+    </ion-card>
+
+</ion-content>

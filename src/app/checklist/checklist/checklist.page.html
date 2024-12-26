@@ -1,0 +1,110 @@
+<!--<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>-->
+
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="end" (click)="sair()">
+            <ion-icon slot="icon-only" name="exit"></ion-icon>
+        </ion-buttons>
+        <ion-title>Checklist</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-refresher (ionRefresh)="atualiza($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslise par  a baixo para atualizar" refreshingSpinner="circles" refreshingText="Atualizando...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+
+    <ion-card class="full-width">
+        <div class="row">
+            <div class="col-9">
+                <ion-item tappable class="border-bottom">
+                    <ion-icon name="car" color="primary" item-left></ion-icon>
+                    <ion-input type="text" [(ngModel)]="placa_car" name="placa_car" placeholder="Placa"></ion-input>
+                </ion-item>
+            </div>
+            <div class="col-3">
+                <ion-button class="round" color="primary" (click)="pesquisarLocacao()">
+                    <ion-icon name="search"></ion-icon>
+                </ion-button>
+            </div>
+        </div>
+    </ion-card>
+
+    <!--description-->
+    <div class="text-center">
+        <h4 ion-text color="primary" class="bold">Locações</h4>
+        <p ion-text>As Locações pesquisadas aparecem abaixo:</p>
+    </div>
+
+    <!--booking form-->
+    <div class="booking-form round container-fluid" *ngFor="let item of locacoes">
+        <!-- List of Text Items -->
+        <div class="card">
+            <div class="card-body gradient-quepal">
+                <h4><strong>Locação: </strong>{{item.id_Loc}}</h4>
+                <h6 *ngIf="item.titulo_pla !== null || item.titulo_pla === '' " class="text-dark bold"><strong>plano: </strong>{{item.titulo_pla}} </h6>
+                <h6 *ngIf="item.seguroPlus === '1' " class="text-dark bold"><strong>Seguro: </strong><span style="color: #000; font-size: 16px; font-weight: 900;">Premium</span></h6>
+                <h6 class="text-dark bold"><strong>Nome:</strong> {{item.nome_cli}}</h6>
+                <h6 class="text-dark bold"><strong>Cpf:</strong> {{item.cpf_cli}}</h6>
+                <ion-fab vertical="top" horizontal="end" slot="fixed">
+                    <ion-fab-button (click)="verTodosChecklist(item.id_Loc)">
+                        <ion-icon name="list-box"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </div>
+        </div>
+
+        <div class="border-bottom">
+            <ion-list>
+                <ion-item color="none" id="home-list-item4">
+                    <ion-thumbnail item-left>
+                        <img [src]="item.foto || 'assets/imgs/user-male.jpg'" />
+                    </ion-thumbnail>
+                    <span>
+                Placa: <b>{{item.placa_car}}</b> <br />
+                Modelo:<strong>{{item.modelo_car}}</strong> <br />
+                Cor: <b>{{item.cor_car}}</b><br />
+                 <b *ngIf="item.titulo_loj === 'KL TORQUATO APLICATIVO' " style="color: green; font-size: 18px; font-weight: 900;">{{item.titulo_loj}}</b>
+                 <b *ngIf="item.titulo_loj === 'KL TORQUATO PF' " style="color: green; font-size: 18px; font-weight: 900;">{{item.titulo_loj}}</b>
+                  <b *ngIf="item.titulo_loj === 'KL PÇ 14 APLICATIVO' " style="color: orangered; font-size: 18px; font-weight: 900;">{{item.titulo_loj}}</b>
+                  <b *ngIf="item.titulo_loj === 'KL PÇ 14 PF' " style="color: orangered; font-size: 18px; font-weight: 900;">{{item.titulo_loj}}</b>
+                  <b *ngIf="item.titulo_loj === 'KL BV APLICATIVO' " style="color: blue; font-size: 18px; font-weight: 900;">{{item.titulo_loj}}</b>
+                  <b *ngIf="item.titulo_loj === 'KL BV - PF' " style="color: blue; font-size: 18px; font-weight: 900;">{{item.titulo_loj}}</b>
+    
+              </span>
+                    <!--*ngIf="item.uber === 0"-->
+                    <div *ngIf="item.uber === '1' " class="img-uber">
+                        <img src="assets/imgs/uber.png" alt="image" />
+                    </div>
+                    <div *ngIf="item.uber === '0' " class="img-uber">
+                        <img src="assets/imgs/favicon.png" />
+                    </div>
+                </ion-item>
+                <div class="row">
+
+                    <div class="col-4 col-sm-4">
+                        <img class="btn" width="128" height="50" (click)="fazerChecklist(item, 'saida')" src="assets/imgs/saida.jpg" />
+                    </div>
+
+                    <div class="col-4 col-sm-4">
+                        <img class="btn" width="128" height="50" (click)="fazerChecklist(item, 'retorno')" src="assets/imgs/final.jpg" />
+                    </div>
+
+                    <div class="col-4 col-sm-4">
+                        <img class="btn" width="128" height="50" (click)="atendimento(item)" src="assets/imgs/atendimento.jpg" />
+                    </div>
+
+                </div>
+            </ion-list>
+        </div>
+    </div>
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+        <ion-fab-button (click)="locacaoDia()">
+            <ion-icon name="refresh"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+</ion-content>

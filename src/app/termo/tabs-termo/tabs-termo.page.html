@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Contrato e termos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="animated fadeIn login auth-page">
+  <ion-card>
+    <ion-item detail  (click)="manaulUsuario()">
+      <ion-icon name="book" slot="start"></ion-icon>
+      <ion-label>MANUAL DO USÚARIO</ion-label>
+    </ion-item>
+    <ion-item detail  (click)="adesao()">
+      <ion-icon name="book" slot="start"></ion-icon>
+      <ion-label>CONTRATO DE ADESÃO</ion-label>
+    </ion-item>
+    <ion-item detail (click)="privacidade()">
+      <ion-icon name="book" slot="start"></ion-icon>
+      <ion-label>PRIVACIDADE</ion-label>
+    </ion-item>
+    <ion-item detail (click)="termoUsuario()">
+      <ion-icon name="book" slot="start"></ion-icon>
+      <ion-label>TERMO DE USO</ion-label>
+    </ion-item>
+    
+    <ion-item detail (click)="fidelidade()">
+      <ion-icon name="book" slot="start"></ion-icon>
+      <ion-label>FIDELIDADE</ion-label>
+    </ion-item>
+  </ion-card>  
+
+
+</ion-content>

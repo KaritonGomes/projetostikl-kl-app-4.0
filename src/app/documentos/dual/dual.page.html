@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Documento do carro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="text-align:center;">
+
+  <ion-card *ngIf="lista <= 0" color="primary">
+    <ion-card-content>
+      <h1>Você não possui uma locação em aberto!</h1>
+      <ion-button color="light" expand="block" (click)="reserva()">Reserva locação</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor=" let locacao of listaLocDoc">
+    <ion-card-header>
+      <ion-card-title>Locacão {{ locacao.id_Loc }}</ion-card-title>
+      <ion-card-subtitle>Placa : {{ locacao.placa_car }} <br> Modelo : {{ locacao.modelo_car }} <br> Cor : {{ locacao.cor_car }} </ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      {{ locacao.nome_cli }}
+    </ion-card-content>
+  
+
+    <ion-button (click)="abrirLink(locacao.id_car,locacao.placa_car)">Ver Doc da Placa</ion-button>
+    <!-- <ion-button fill="clear">Action 2</ion-button> -->
+  </ion-card>
+
+
+
+
+
+
+
+
+
+  <!-- <ion-button *ngIf="lista > 0" (click)="duti()">
+    Ver documento
+  </ion-button> -->
+  <!-- <ion-button (click)="duti('baixar')">
+    Baixar documento
+  </ion-button> -->
+
+
+</ion-content>

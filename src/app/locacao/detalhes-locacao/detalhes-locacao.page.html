@@ -1,0 +1,77 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="tabs/locacao"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Contrato: &nbsp;{{locacao.id_Loc}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+
+    <ion-card  class="cards">
+      <ion-grid>
+        <ion-row class="linha">DETALHES DA SUA LOCAÇÃO</ion-row>
+      </ion-grid>
+      <ion-grid>
+        <ion-row class="design">
+          <ion-col>Veículo:</ion-col>
+          <ion-col><b>{{locacao.modelo_car}}</b> </ion-col>
+        </ion-row>
+        
+        <ion-row class="design" >
+          <ion-col  >Ano:</ion-col>
+          <ion-col> <b>{{locacao.ano_car}}</b></ion-col>
+        </ion-row>
+  
+        <ion-row class="design">
+          <ion-col>Placa:</ion-col>
+          <ion-col> <b>{{locacao.placa_car}}</b> </ion-col>
+        </ion-row>
+  
+        <ion-row class="design">
+          <ion-col>Início em:</ion-col>
+          <ion-col> <b>{{locacao.dataLoc }}</b></ion-col>
+        </ion-row>
+  
+        <ion-row class="design">
+          <ion-col>Devolução em:</ion-col>
+          <ion-col><b>{{locacao.dataPrev }}</b></ion-col>
+        </ion-row>
+  
+        <ion-row class="design">
+          <ion-col>Diária:</ion-col>
+          <ion-col><b>{{locacao.carroDiaria | currency:'BRL':true}}</b> </ion-col>
+        </ion-row>
+  
+        <ion-row class="design">
+          <ion-col>Km inicial:</ion-col>
+          <ion-col><b>{{locacao.kmInicial}}</b></ion-col>
+        </ion-row>
+  
+        <ion-row class="design">
+          <ion-col>Última Km:</ion-col>
+          <ion-col><b>{{locacao.kmFinal}}</b></ion-col>
+        </ion-row>
+        <!--style="background-color:#b3b3b3;"-->
+        <ion-row class="design">
+          <ion-col>Valor pago:</ion-col>
+          <ion-col><b>{{locacao.valorAmortizado | currency:'BRL':true }}</b></ion-col>
+        </ion-row>
+  
+      </ion-grid>
+      <br />
+      <!--<div text-center>
+        <button class="bt" block color="primary"ion-button class="butao-solicitar" (click)="solicitar(locacao)"> Agendar Serviço </button>
+      </div>-->
+  
+    </ion-card>
+    
+     <!-- fab placed to the bottom start -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="dual()" color="danger">
+      <ion-icon name="book"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  </ion-content>
+  

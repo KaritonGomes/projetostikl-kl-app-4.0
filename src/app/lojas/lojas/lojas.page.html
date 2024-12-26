@@ -1,0 +1,68 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Lojas</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslise para baixo para atualizar" refreshingSpinner="circles" refreshingText="Atualizando...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+
+
+
+
+    <div class="card card-box" *ngFor="let item of lista; let i = index ">
+        <ion-fab vertical="top" horizontal="end" slot="fixed">
+            <ion-fab-button color="danger" (click)="detalhesLojas(item)">
+                <ion-icon name="map"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+
+
+        <ion-item class="ion-activated" lines="none">
+            <ion-icon name="home" slot="start"></ion-icon>
+            <ion-label class="label-titulo"><b>{{item.titulo_loj_app}}</b></ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+            <ion-icon name="pin" slot="start"></ion-icon>
+            <ion-label>{{item.rua_loj}}</ion-label>
+        </ion-item>
+
+        <ion-item class="ion-activated" lines="none">
+            <ion-icon name="map" slot="start"></ion-icon>
+            <ion-label>{{item.numero_loj}}</ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+            <ion-icon name="people" slot="start"></ion-icon>
+            <ion-label>{{item.bairro_loj}}</ion-label>
+        </ion-item>
+
+
+        <ion-item lines="none" *ngIf="i === 0 ">
+            <ion-icon name="call" slot="start"></ion-icon>
+            <ion-label>(92) 98445-3639</ion-label>
+        </ion-item>
+        <ion-item lines="none" *ngIf="i === 1 ">
+            <ion-icon name="call" slot="start"></ion-icon>
+            <ion-label>(92) 98400-4426</ion-label>
+        </ion-item>
+
+        <ion-item lines="none" *ngIf="i=== 2 ">
+            <ion-icon name="call" slot="start"></ion-icon>
+            <ion-label>(92) 98445-3485</ion-label>
+        </ion-item>
+
+
+    </div>
+
+
+
+</ion-content>

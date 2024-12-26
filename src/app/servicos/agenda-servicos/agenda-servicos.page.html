@@ -1,0 +1,77 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Agenda serviços</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding center" >
+
+    <ion-card *ngIf="aviso != null">
+        <p style="padding: 10px !important; font-size: 14px !important; color: #000 !important">{{aviso}}</p>
+    </ion-card>
+        <form novalidate >
+            <ion-list padding>
+               <!----> <div class="cardLoc" [formGroup]="formulario">
+                    <ion-label color="primary" position="stacked">Locação</ion-label>
+                    <ion-select class="form-control" interface="action-sheet" [(ngModel)]="locacao" id="loc" name="loc" (ngModelChange)="buscarServico(locacao.id_Loc)" formControlName="Locacao" placeholder="Clique aqui">
+                        <ion-select-option *ngFor="let item of listaLoc " [value]="item">
+                            {{item.id_Loc}}/&nbsp;{{item.placa_car}}
+                        </ion-select-option>
+                    </ion-select>
+
+                </div>
+                <div class="form-group cardLoc" [formGroup]="formulario">
+                    <ion-label color="primary" position="stacked">serviços</ion-label>
+                    <ion-select (ionChange)="limparDados()" class="form-control" interface="action-sheet" [(ngModel)]="tipoServ" id="tipoServ" name="tipoServ" formControlName="TipoServico" okText="Ok" cancelText="CANCELAR" placeholder="Clique aqui">
+                        <ion-select-option *ngFor="let tipoServ of listaServico" [value]="tipoServ"> {{ tipoServ.descricao_cat }}
+                        </ion-select-option>
+                    </ion-select>
+                </div>
+
+                <div class="form-group" [formGroup]="formulario" *ngIf="tipoServ.descricao_cat == 'Outros Serviços' ">
+                    <label for="exampleFormControlTextarea1">Outros serviços</label>
+                    <textarea [(ngModel)]="outroServico" name="outroServico" class="form-control rounded-0" id="exampleFormControlTextarea1" placeholder="Descreva aqui outro tipo de serviço" rows="3" formControlName="Outros"></textarea>
+                </div>
+
+                <div class="form-group cardLoc" [formGroup]="formulario">
+                    <ion-label color="primary" position="stacked">Oficina</ion-label>
+                    <ion-select class="form-control" interface="action-sheet" [(ngModel)]="loja" id="story" name="story" formControlName="LojaServico" (ionChange)="pesquisar()" okText="Ok" cancelText="CANCELAR" placeholder="Clique aqui">
+                        <ion-select-option *ngFor="let loja of lojasServicos" [value]="loja"> {{ loja.titulo_loj_app }}
+                        </ion-select-option>
+                    </ion-select>
+                </div>
+
+                <div class="form-group cardLoc" [formGroup]="formulario">
+                    <ion-label color="primary" position="stacked">Escolha o dia</ion-label>
+                    <ion-select class="form-control" interface="action-sheet" (ionChange)="hora(loja.id_loj)" id="item.id_dia" [(ngModel)]="dataSelecionada" id="diaControl" name="dataSelecionada" formControlName="DiaServico" okText="Ok" cancelText="CANCELAR" placeholder="Clique aqui">
+                        <ion-select-option text-wrap id="item.id_dia" *ngFor="let item of dias" [value]="item.data">
+                            <strong>{{ item.data | date: "dd/MM/yyyy" }} {{ item.total }} vagas</strong>
+                        </ion-select-option>
+                    </ion-select>
+                </div>
+
+                <div class="form-group cardLoc" [formGroup]="formulario">
+                    <ion-label color="primary" position="stacked">Escolha Hora</ion-label>
+                    <ion-select class="form-control" interface="action-sheet" [(ngModel)]="horaSelecionada" id="hour" name="hour" formControlName="HoraServico" okText="Ok" cancelText="CANCELAR" placeholder="Clique aqui">
+                        <ion-select-option *ngFor="let item of horas" [value]="item.hora_serv_hora">
+                            <strong> {{ item.hora_serv_hora }} {{ item.qtd_disponivel }} Vagas</strong>
+                        </ion-select-option>
+                    </ion-select>
+                </div>
+
+                <div class="form-group cardLoc " [formGroup]="formulario">
+                    <ion-label color="primary" position="stacked">Quilometragem</ion-label>
+                    <ion-input class="form-control" [(ngModel)]="kilometragem" id="km" name="kilometragem" type="number" formControlName="Quilometragem" placeholder="Clique aqui e digite a km"> 
+                    </ion-input>
+                </div>
+                <div *ngIf="desabilita === false">
+                    <ion-button expand="block" type="submit" color="primary" class="ion-margin-top" full tappable (click)="salvarServico()">
+                        SOLICITAR
+                    </ion-button>
+                </div>
+            </ion-list>
+        </form>
+</ion-content>

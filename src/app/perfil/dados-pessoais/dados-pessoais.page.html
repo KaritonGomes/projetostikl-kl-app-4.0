@@ -1,0 +1,126 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="tabs/perfil"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Dados pessoais</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content class="profile">
+  <ion-card class="ionForm">
+    <form #form="ngForm" novalidate>
+      <div>
+        <ion-list>
+          <ion-item>  
+            <ion-label position="floating">Nome</ion-label>
+            <ion-input
+              type="text"
+              name="nome"
+              [(ngModel)]="cliente.nome"
+              [ngModelOptions]="{ standalone: true }"
+              #nome="ngModel"
+              required
+            ></ion-input>
+          </ion-item>
+          <ion-item
+            *ngIf="nome.errors && (nome.dirty || nome.touched)"
+            class="text-danger"
+            style="color:red"
+          >
+            O campo nome é obrigatório
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="floating">CPF</ion-label>
+            <ion-input
+              type="number"
+              name="cpf"
+              [(ngModel)]="cliente.cpf"
+              [ngModelOptions]="{ standalone: true }"
+              #cpf="ngModel"
+              [readonly]="true"
+              required
+            ></ion-input>
+          </ion-item>
+  
+          <ion-item
+            *ngIf="cpf.errors && (cpf.dirty || cpf.touched)"
+            class="text-danger"
+            style="color:red"
+          >
+            O campo cpf é obrigatório
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input
+              class="entrada"
+              type="email"
+              name="email"
+              [(ngModel)]="cliente.email"
+              [ngModelOptions]="{ standalone: true }"
+              #email="ngModel"
+              [readonly]="true"
+              required
+            ></ion-input>
+          </ion-item>
+  
+          <ion-item
+            *ngIf="email.errors && (email.dirty || email.touched)"
+            class="text-danger"
+            style="color:red"
+          >
+            O campo email é obrigatório
+          </ion-item>
+           <ion-item>
+            <ion-label position="floating">Número da habilitação </ion-label>
+            <ion-input
+              class="entrada"
+              type="number"
+              name="habilitacao"
+              [(ngModel)]="cliente.habilitacao"
+              [ngModelOptions]="{ standalone: true }"
+              #habilitacao="ngModel"
+              required
+            ></ion-input>
+          </ion-item>
+  
+  
+          <br />
+          <ion-item>
+            <ion-label position="floating">Validade Habilitação</ion-label>
+            <ion-datetime
+              cancelText="Cancelar"
+              doneText="Selecionar"
+              displayFormat="DD/MM/YYYY  "
+              [(ngModel)]="cliente.validade_hab"
+              [ngModelOptions]="{ standalone: true }"
+              readonly="true"
+              >{{ cliente.validade_hab | date: "dd/MM/yyyy" }}</ion-datetime
+            >
+          </ion-item>
+  
+  
+          <br />
+          <ion-item>
+            <ion-label position="floating">Data de Nascimento</ion-label>
+            <ion-datetime
+              cancelText="Cancelar"
+              doneText="Selecionar"
+              displayFormat="DD/MM/YYYY  "
+              [(ngModel)]="cliente.data_nascimento"
+              [ngModelOptions]="{ standalone: true }"
+              readonly="readonly"
+  
+              >{{ cliente.data_nascimento | date: "dd/MM/yyyy" }}</ion-datetime
+            >
+          
+          </ion-item>
+          <br />         
+
+        </ion-list>
+      </div>
+      </form>
+    </ion-card>
+</ion-content>

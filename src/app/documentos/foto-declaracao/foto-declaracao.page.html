@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="tabs/pagamento"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Falta foto da declaração</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <p align="justify" class="carta">
+        Baixe a declaração de autorização , imprima e preencha os dados de acordo com o documento original(RG OU CNH).<br/>
+        Assinatura do documento deve ser igual com o documento original(RG OU CNH)
+    </p><br />
+      <ion-button expnad="block" class="btn" color="primary" (click)="openPage()">Declaração &nbsp; <ion-icon name="document"></ion-icon></ion-button>
+      <div >
+          <br />
+          <ion-item (click)="takeFoto('identidade')">
+            <ion-thumbnail slot="start">
+                <img src="{{identidade || 'assets/imgs/camera.png'}}" />
+            </ion-thumbnail>
+            <br />
+            &nbsp;
+            <span style="font-family: 'Times New Roman', Times, serif; font-size: 12px; color: #000"><b>Documento do titular
+                <br />do cartão(RG OU CNH)</b></span>
+            &nbsp;
+  
+            <ion-icon name="close" color="danger" *ngIf="identidade == null || identidade == undefined"></ion-icon>
+            <ion-icon name="checkmark" color="success" *ngIf="identidade != false && identidade != undefined"></ion-icon>
+          </ion-item>
+  
+          <ion-item (click)="takeFoto('declaracao')">
+            <ion-thumbnail slot="start">
+                <img [src]="declaracao || 'assets/imgs/camera.png'" />
+            </ion-thumbnail>
+            &nbsp;
+            <span style="font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: #000"><b>Declaração de autorização<br/> Devidamente preenchida</b></span>
+              &nbsp;
+            <ion-icon name="close" color="danger" *ngIf="declaracao == null || declaracao == undefined"></ion-icon>
+            <ion-icon name="checkmark" color="success" *ngIf="declaracao != false && declaracao != undefined">
+            </ion-icon>
+          </ion-item>
+          <ion-item (click)="takeFoto('selfie')">
+              <ion-thumbnail slot="start">
+                <img [src]="selfie || 'assets/imgs/camera.png'" />
+              </ion-thumbnail>
+             
+              &nbsp;
+              <span style="font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: #000"><b>Selfie do titular do cartão<br/> Segurando o documento</b></span>
+                &nbsp;
+              <ion-icon name="close" color="danger" *ngIf="selfie == null || selfie == undefined"></ion-icon>
+              <ion-icon name="checkmark" color="success" *ngIf="selfie != false && selfie != undefined"></ion-icon>
+              </ion-item>
+
+
+         <ion-item (click)="takeFoto('cartaoFrente')">
+            <ion-thumbnail slot="start">
+              <img [src]="cartaoFrente || 'assets/imgs/camera.png'" />
+            </ion-thumbnail>
+           
+                 &nbsp;
+                  <span style="font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: #000"><b>Cartão(frente)</b></span>
+                    &nbsp;
+            <ion-icon name="close" color="danger" *ngIf="cartaoFrente == null || cartaoFrente == undefined"></ion-icon>
+            <ion-icon name="checkmark" color="success" *ngIf="cartaoFrente != false && cartaoFrente != undefined"></ion-icon>
+            </ion-item>
+
+            <ion-item (click)="takeFoto('cartaoVerso')">
+              <ion-thumbnail slot="start">
+                <img [src]="cartaoVerso || 'assets/imgs/camera.png'" />
+              </ion-thumbnail>
+            
+                  &nbsp;
+                     <span style="font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: #000"><b>Cartão(verso)<br/> Cubra o CVV(codígo de segurança)</b></span>
+                   &nbsp;
+              <ion-icon name="close" color="danger" *ngIf="cartaoVerso == null || cartaoVerso == undefined"></ion-icon>
+              <ion-icon name="checkmark" color="success" *ngIf="cartaoVerso != false && cartaoVerso != undefined"></ion-icon>
+              </ion-item>
+
+            
+
+            <!--[disabled]="habilitarButao()"-->
+            <ion-button class="btn" expand="block" color="primary"  (click)="upload()" >
+              ENVIAR
+            </ion-button>
+         
+        </div>
+    
+  </ion-content>
+  

@@ -1,0 +1,257 @@
+<ion-header *ngIf="clienteLogado === true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/nova-locacao/grupo-veiculo-externo"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Seguros e acessórios
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header *ngIf="clienteDeslogado === false">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/grupo-veiculo-externo"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Seguros e acessórios
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="meuCard">
+    <div class="cardTitulo">
+      <span>Lavagem do Veículo</span>
+    </div>
+
+    <ion-item lines="none" style="color: black;">
+      <ion-label style="color: black;"><span>Lavagem do veículo</span> <span style="color: red;">* </span><br><span
+          class="text-secondary">R$
+          {{lavagem}}</span></ion-label>
+      <ion-toggle slot="end" [value]="lavagem" checked disabled></ion-toggle>
+    </ion-item>
+
+  </div>
+
+  <div class="meuCard">
+    <div class="cardTitulo">
+      <span>Instituição Janelll Doyle</span>
+    </div>
+
+    <ion-item lines="none">
+      <div>Deseja colaborar <br> <span>R$ {{valorDoacao}},00</span></div>
+      <ion-toggle [(ngModel)]="instituicao" name="instituicao" slot="end" color="primary"
+        (ionChange)="novaDoacao($event)"></ion-toggle>
+    </ion-item>
+    <div *ngIf="valorDoacao > 0">
+      <ion-input class="form-control caridade" type="number" [(ngModel)]="valorDoacao" name="valorDoacao"
+        placeholder="insira o valor" (ionChange)="novaDoacao(valorDoacao)"> </ion-input>
+    </div>
+
+  </div>
+
+  <div class="meuCard" *ngIf="agregados.categoria">
+    <div class="cardTitulo">
+      <span>Proteções</span>
+    </div>
+    <ion-list>
+      <ion-radio-group [(ngModel)]="seguro" name="seguro" (ionChange)="calcularSeguro()" allow-empty-selection="true">
+        <ion-item *ngFor="let item of listaRadioSeguro">
+          <ion-label>{{item.text}} <br />
+            <span style="color: gray;"> {{item.segNormal | currency:'BRL':'symbol':'0.2-2':'pt'}}</span>
+          </ion-label>
+          <ion-radio color="primary" slot="end" [value]="item.value" [color]="item.color" [disabled]="item.disabled"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+  </div>
+
+  <div class="meuCard">
+    <div class="cardTitulo">
+      <span>Condutor Adicional</span>
+    </div>
+    <ion-list>
+      <div class="row condutor-row">
+        <div class="col">
+          <span>Condutor</span>
+        </div>
+        <div class="col ion-text-end">
+          {{ 4 | currency: 'BRL':'symbol':'0.2-2':'pt' }}/Dia
+        </div>
+      </div>
+      <div class="row condutor-controls">
+        <div class="col ion-text-center">
+          <ion-button color="primary" size="small" (click)="changeCondutor('diminuir')">
+            <ion-icon name="remove-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-input
+            class="input-condutor"
+            type="number"
+            [(ngModel)]="incrementar"
+            readonly>
+          </ion-input>
+          <ion-button color="primary" size="small" (click)="changeCondutor('add')">
+            <ion-icon name="add-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="col ion-text-end">
+          {{ totalValorCondutor | currency: 'BRL':'symbol':'0.2-2':'pt' }}
+        </div>
+      </div>
+    </ion-list>
+  </div>
+  
+
+  <!-- <div class="meuCard">
+    <div class="cardTitulo detalhe">
+      <span>Acessórios xx</span>
+    </div>
+    <ion-list *ngFor="let acessorio of listaAcessorios" class="separador-list-ace">
+      <div class="container">
+        <div class="row container-row">
+          <div class="col-6 fonte-acer cardTitulo" style="color:#fff;">
+            {{ acessorio.nome_ace }}
+          </div>
+          <div class="ion-text-end col-6 fonte-acer">
+            {{acessorio.valor_ace}}/Dia
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-6">
+            <div class="input-group">
+              <div class="input-group-prepend" (click)="changeAcessorio(acessorio, 'min')">
+                <span class="input-group-text" id="basic-addon1">
+                  <ion-icon color="primary" name="remove-circle-outline"></ion-icon>
+                </span>
+              </div>
+              <div class="ion-text-center">
+                <ion-input type="number" class="form-control input-acessorio">
+                  {{getAcessorio(acessorio)}}
+                </ion-input>
+              </div>
+              <div class="input-group-prepend" (click)="changeAcessorio(acessorio, 'add')">
+                <span class="input-group-text" id="basic-addon1">
+                  <ion-icon color="primary" name="add-circle-outline"></ion-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="ion-text-end v-middle">
+              {{getValor(acessorio) | currency:'BRL':'symbol':'0.2-2':'pt'}}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </ion-list>
+  </div> -->
+
+  <div class="meuCard final">
+    <div class="cardTitulo">
+      <span>Detalhe do Pedido</span>
+    </div>
+
+    <ion-row>
+      <ion-col class="col-6">
+        Descrição
+      </ion-col>
+      <ion-col class="col-6">
+        Item
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-4> Grupo </ion-col>
+      <ion-col class="col-6">{{agregados.nomeGrupo}}</ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-4> Plano locação </ion-col>
+      <ion-col class="col-6">{{agregados.categoria}}</ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-4> Quantidade de dias </ion-col>
+      <ion-col class="col-6">{{dias}}</ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-4> Valor do Grupo</ion-col>
+      <ion-col class="col-6">{{agregados.valorGrupo | currency:'BRL':'symbol':'0.2-2':'pt'}}</ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-4> Diária Contratada </ion-col>
+      <ion-col class="col-6" *ngIf="agregados.categoria === 'promocional' ">
+        {{((valorPretendido-(agregados.valorGrupo*agregados.percentSeguroBasico/100)*dias)/dias)|
+        currency:'BRL':'symbol':'0.2-2':'pt'}}
+      </ion-col>
+      <ion-col class="col-6" *ngIf="agregados.categoria === 'tarifaCheia' ">
+        {{agregados.valorGrupo | currency:'BRL':'symbol':'0.2-2':'pt'}}
+      </ion-col>
+    </ion-row>
+
+    <div *ngIf="listaDesconto != null">
+      <ion-row>
+        <ion-col col-4 style="color: green">Desconto Bônus <br> {{titulo_desc}}</ion-col>
+        <ion-col class="col-6">{{listaDesconto | currency:'BRL':'symbol':'0.2-2':'pt'}}</ion-col>
+      </ion-row>
+    </div>
+
+    <ion-row>
+      <ion-col col-4>Valor do Seguro</ion-col>
+      <ion-col class="col-6">
+        {{calcularSeguro() | currency:'BRL':'symbol':'0.2-2':'pt'}}
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-4>Valor da Lavagem </ion-col>
+      <ion-col class="col-6">{{lavagem | currency:'BRL':'symbol':'0.2-2':'pt'}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-4>Valor Condutor</ion-col>
+      <ion-col class="col-6">{{totalValorCondutor | currency:'BRL':'symbol':'0.2-2':'pt'}}</ion-col>
+    </ion-row>
+
+    <!-- <ion-row>
+      <ion-col col-4>Valor Acessórios</ion-col>
+      <ion-col class="col-6">{{getValorTotalAce() | currency:'BRL':'symbol':'0.2-2':'pt'}}</ion-col>
+    </ion-row> -->
+    <ion-row>
+      <ion-col col-4>Valor Doação</ion-col>
+      <ion-col class="col-6">{{valorDoacao | currency:'BRL':'symbol':'0.2-2':'pt'}}</ion-col>
+    </ion-row>
+
+  </div>
+
+</ion-content>
+
+<div class="bar bar-footer bar-assertive footer">
+  <div *ngIf="agregados.categoria ? 'promocional': 'tarifaCheia'">
+    <div *ngIf="agregados.calcularSeguroBasico > 0" text-center class="text-danger">
+      <b>Total: <br />{{ calcular() + agregados.calcularSeguroBasico | currency:'BRL':'symbol':'0.2-2':'pt'}}</b>
+    </div>
+
+    <div *ngIf="agregados.calcularSeguroPlus > 0" text-center class="text-danger">
+      <b>Total: <br />{{ calcular() + agregados.calcularSeguroPlus | currency:'BRL':'symbol':'0.2-2':'pt'}}</b>
+    </div>
+  </div>
+
+  <div class="ion-text-center" #inativado class="text-danger">
+    <b>Total:{{calcular() | currency:'BRL':'symbol':'0.2-2':'pt'}}</b>
+  </div>
+
+  <div class="ion-text-center">
+    <ion-button expand="block" (click)="continuar()">Continuar</ion-button>
+  </div>
+</div>

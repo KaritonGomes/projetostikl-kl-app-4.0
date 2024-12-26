@@ -1,0 +1,75 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Locação</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+          pullingIcon="arrow-dropdown"
+          pullingText="Deslise para baixo para atualizar"
+          refreshingSpinner="circles"
+          refreshingText="Atualizando..."
+        >
+        </ion-refresher-content>
+      </ion-refresher>
+      
+    <ion-card color="light"  *ngFor="let loc of lista">
+      <div class="title">
+        <ion-label>Contrato: &nbsp;{{ loc.id_Loc }}</ion-label>
+        <small>
+          <ion-icon color="primary" name="search"  (click)="detalhes(loc)" routerDirection="forward"></ion-icon>
+        </small>
+
+      </div>
+        <div class="border-bottom item" padding>  
+          <!--choose guest-->
+          <ion-grid class="filters" class="ion-no-padding" class="ion-margin-top">
+            <ion-row>
+              <ion-col class="adult" width-50>
+                <span ion-text color="black">Veículo:<strong>&nbsp;{{ loc.modelo_car }}</strong></span>
+              </ion-col>
+              <ion-col class="adult" width-50>
+                <span ion-text color="black">Placa:<strong>&nbsp;{{ loc.placa_car }}</strong></span>
+              </ion-col>
+            </ion-row>
+    
+            <ion-row class="ion-margin-top">
+              <ion-col>
+                <span ion-text ><strong>Data Locação: <br/> {{ loc.dataLoc  }}</strong></span>
+              </ion-col>
+    
+              <ion-col>
+                <span ion-text class="animated infinite  fadeIn"><strong style="color: red">Data Renovação: <br/> {{ loc.dataPrev  }}</strong></span>
+              </ion-col>
+            </ion-row>
+    
+            <ion-row class="ion-margin-top">
+                <ion-col>
+                    <span *ngIf="loc.plano != null" ion-text><strong>Plano:&nbsp;  {{ loc.plano}}</strong></span>
+                </ion-col>
+              </ion-row>
+              <ion-button expand="block" color="primary"
+                  (click)="verificarDependencias(loc.id_Loc, loc)">
+                  PAGAMENTO
+                </ion-button>
+        
+    
+          </ion-grid>
+        </div>
+    
+      </ion-card>
+    
+    
+    
+      <ion-list class="aviso">
+        <ion-item *ngIf="lista.length <= 0">
+          <p>Locações abertas aparecerão aqui</p>
+        </ion-item>
+      </ion-list>
+
+</ion-content>

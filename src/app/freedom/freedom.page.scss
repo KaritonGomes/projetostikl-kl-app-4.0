@@ -1,0 +1,107 @@
+.model{
+    font-size: 22px;
+}
+.assinar {
+    background-color: #228662;
+    padding: 10px;
+    color: #fff;
+    border-bottom-right-radius: 10px;
+    width: 100%;
+}
+
+.carde {
+    border-radius: 10px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 20px;
+    background-color: rgb(236, 252, 243);
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: center;
+}
+
+ion-card-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.info {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.txt h3 {
+    color: green;
+}
+
+.txt p {
+    text-align: justify;
+    margin-top: 20px;
+}
+
+.busca {
+    background-color: rgb(236, 252, 243);
+    margin-bottom: 20px;
+
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    .topo1{
+        width: 85%;
+        font-size: 25px;
+        margin-top: 10px;
+    }
+    .topo2{
+        width: 15%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        label{
+            font-size: 6px;
+            color: #000;
+        }
+    }
+}
+.ass{
+    display: flex;
+    margin-left: -15px;
+    .ass1{
+        background-color: #228662;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        width: 47%;
+        label{
+            color: #fff;
+            margin-left: 15px;
+        }
+      
+    }
+}
+
+.descricao{
+    display: flex;
+    margin-top: 10px;
+    .txt{
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        .title{
+            font-size: 11px;
+            color: #000;
+            margin-bottom: 9px;
+        }
+        label{
+            font-size: 11px;
+        }
+    }
+    .txt2{
+        width: 30%;
+    }
+}

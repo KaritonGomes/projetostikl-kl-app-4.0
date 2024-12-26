@@ -1,0 +1,199 @@
+<ion-header *ngIf="clienteLogado === true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/tabs/nova-locacao/reserva"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Grupos de veículos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header *ngIf="clienteDeslogado === false">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/reserva"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Grupos de veículos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div #referencia>
+    <div *ngIf="agregados.promocao ? 'promocional': 'tarifaCheia'" #referencia>
+      <ion-card *ngFor="let grupo of listaGrupoPlano; let i = index">
+        <div>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-2>
+                <ion-card-title> <b>Grupo: {{grupo.nome_grupo_car}} </b></ion-card-title>
+                <ion-col class="col-9" style="color:#000 ; font-size:12px">
+                  {{grupo.desc_grupo_car}}
+                </ion-col>
+                <h6>A partir de:</h6>
+                <ion-item class="preco" lines="none">
+
+                  <span
+                    *ngIf="this.tipoPlano === '1'"
+             
+                  >
+                    {{grupo.valor_loc_car |
+                    currency:'BRL':'symbol':'0.2-2':'pt'}}</span
+                  >
+                  <span
+                    *ngIf="this.tipoPlano === '2'"
+
+                  >
+                    {{
+                    ((grupo.valor_pretendido-(grupo.valor_loc_car*grupo.seguro_basico_perc/100)*grupo.qtd_min_dias)/grupo.qtd_min_dias)
+                    | currency:'BRL':'symbol':'0.2-2':'pt'}}
+                  </span>
+                </ion-item>
+
+         
+
+
+              </ion-col>
+              <ion-col col-8>
+                <img  class="img-fluid float-left text-center img-tamanho" [src]="grupo.link_image || 'assets/imgs/substituta.png'" />
+                 <!-- <img src="{{grupo.link_image}}" />-->
+               
+               </ion-col>
+      
+            </ion-row>
+          </ion-grid>
+         
+          <ion-row>
+       
+            <ion-col class="col-3" (click)="escolheGrupo(grupo)">
+              <ion-icon
+                color="primary"
+                size="large"
+                name="add-circle-outline"
+              ></ion-icon>
+            </ion-col>
+          </ion-row>
+          <div class="sepadador">
+            <div (click)="presentPopover(grupo)">
+              <ion-row>
+                <ion-col class="col-9 cor"> Detalhes do grupo</ion-col>
+                <ion-col class="col-3">
+                  <ion-icon
+                    size="large"
+                    color="primary"
+                    name="arrow-dropup-circle"
+                    *ngIf="isMenuOpen"
+                  ></ion-icon>
+                  <ion-icon
+                    size="large"
+                    color="primary"
+                    name="search"
+                    *ngIf="!isMenuOpen
+                     "
+                  ></ion-icon>
+                </ion-col>
+              </ion-row>
+            </div>
+          </div>
+        </div>
+      </ion-card>
+    </div>
+  </div>
+  <!------------------------------------------------------------------------------------------------>
+
+  <div class="card separador-card">
+    <!---->
+    <div class="panel-heading" *ngIf="grupoDefinido ! null ">
+      <nav class="navbar navbar-expand-lg cor-upgrade" style="font-family:Montserrat ;">
+        Grupo Escolhido: {{grupoDefinido.nome_grupo_car}}
+      </nav>
+      <div class="descricaoUp">
+        {{grupoDefinido.desc_grupo_car}}
+      </div>
+      <div class="ion-text-right btn-continuar">
+        <ion-button (click)="acessorios(grupoDefinido)">Continuar</ion-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card separador-card" *ngFor="let grupo of gruposUpgrade">
+    <nav class="navbar navbar-expand-lg cor-upgrade" style="padding:10px ;">
+      Melhor ofertas, Menor preço
+    </nav>
+    <div class="col-sm-6 col-md-4">
+      <div *ngIf="tipoPlano == 1" style="border: 1px solid #ddd; border-radius:20px">
+        <h4 style="color:#e00724; padding-left: 10px;">
+        <b> Por +
+          {{(grupo.valor_diaria_grupo_car-grupoDefinido.valor_diaria_grupo_car)
+          | currency:'BRL':'symbol':'0.2-2':'pt'}}/Dia</b> 
+        </h4>
+        <ion-grid style="border: 1pix solid #ddd; border-radius: 10px;">
+          <ion-row  >
+            <ion-col col-8>
+              <ion-item lines="none">
+                <h4 style="color: #000;">
+                  <b>{{grupo.nome_grupo_car}}</b>
+                  <div style="background-color: #228662 ; color: #fff; padding: 5px; border-top-left-radius: 10px; border-bottom-right-radius: 10px;">
+                    {{ grupo.valor_diaria_grupo_car |
+                    currency:'BRL':'symbol':'0.2-2':'pt'}}
+                  </div>
+                  <br />
+                </h4>
+              </ion-item>
+            </ion-col>
+            <ion-col col-2>
+              <img  class="img-fluid float-left text-center img-tamanho" [src]="grupo.link_image || 'assets/imgs/substituta.png'" />
+              <!--<img src="{{grupo.link_image}}" />-->
+              
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div class="descicaoUp">
+          {{grupo.desc_grupo_car}}
+        </div>
+        <div class="ion-text-right btn-continuar">
+          <ion-button (click)="acessorios(grupo)">Ofertas</ion-button>
+        </div>
+      </div>
+
+      <div *ngIf="tipoPlano == 2">
+        <h4 style="color:#e00724;">
+          POR +
+          {{(grupo.valor_diaria_grupo_car*grupo.seguro_basico_perc/100-grupoDefinido.valor_diaria_grupo_car*grupoDefinido.seguro_basico_perc/100)
+          | currency:'BRL':'symbol':'0.2-2':'pt'}}/DIA
+        </h4>
+        <ion-grid>
+          <ion-row>
+            <ion-col col-2>
+              <img  class="img-fluid float-left text-center img-tamanho" [src]="grupo.link_image || 'assets/imgs/substituta.png'" />
+              <!--<img src="{{grupo.link_image}}" />-->
+              
+            </ion-col>
+            <ion-col col-8>
+              <ion-item lines="none">
+                <h4 style="color: green;">
+                  <b>{{grupo.nome_grupo_car}}</b> 
+                  <div>
+                    {{((grupo.valor_pretendido-(grupo.valor_diaria_grupo_car*grupo.seguro_basico_perc/100)*grupo.qtd_min_dias)/grupo.qtd_min_dias) | currency:'BRL':'symbol':'0.2-2':'pt'}}
+                  </div>
+                  <br />
+                </h4>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div class="descicaoUp">
+          {{grupo.desc_grupo_car}}
+        </div>
+        <div class="ion-text-right btn-continuar">
+          <ion-button (click)="acessorios(grupo)">Ofertas</ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</ion-content>
