@@ -127,6 +127,18 @@ export class FormCadPage implements OnInit {
     });
   }
 
+  async openTermosDeUso() {
+    await Browser.open({ url: 'https://klrentacar.com.br/Home/politica_app1', windowName: '_system' });
+  }
+  
+  async openPoliticaDePrivacidade() {
+    await Browser.open({ url: 'https://klrentacar.com.br/Home/politica_app', windowName: '_system' });
+  }
+  
+  async contratodelocacao() {
+    await Browser.open({ url: 'https://klrentacar.com.br/sistema/assets/contrato_locacao.pdf', windowName: '_system' });
+  }
+  
   async termoUso() {
     this.desabilita = true;
     if (this.primeiroSlide.invalid) {
@@ -220,6 +232,7 @@ export class FormCadPage implements OnInit {
   }
   async openPdf() {
     await Browser.open({ url: 'https://klrentacar.com.br/sistema/assets/contrato_locacao.pdf', windowName: '_system' });
+
   }
   // metodo de verificar senha
   managePassword() {

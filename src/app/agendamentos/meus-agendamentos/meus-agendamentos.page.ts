@@ -1,18 +1,13 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-
 import { NavController, AlertController, LoadingController } from '@ionic/angular';
-
 import { Geolocation } from '@capacitor/geolocation';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@awesome-cordova-plugins/launch-navigator/ngx';
-
 import { StorageService } from 'src/app/api/service/storage.service';
 import { ClienteService } from 'src/app/api/service/cliente.service';
 import { Locacao } from 'src/app/model/shared/locacao';
 import { LocacaoService } from 'src/app/api/service/locacao.service';
 import { ToastService } from 'src/app/api/service/toast.service';
-
 import { Subscription } from 'rxjs';
-
 import { ServicosService } from 'src/app/api/service/servicos.service';
 
 declare var google;

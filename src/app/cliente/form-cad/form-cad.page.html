@@ -157,10 +157,44 @@
               </div>
             </ion-item>
             <br />
-            <ion-button type="submit" expand="block" [disabled]="primeiroSlide.invalid" (click)="next()">
-              Próximo Passo
-            </ion-button>
+           
 
+            <ion-slide>
+              <h6 class="hform">Leia e aceite os Termos e Condições antes de continuar.</h6>
+            
+              <ion-card>
+                <ion-list>
+                  <!-- Formulário -->
+                  <form novalidate>
+                    <!-- Checkbox para aceitar os Termos e Condições -->
+                    <ion-item>
+                      <ion-checkbox
+                        slot="start"
+                        [(ngModel)]="termosAceitos"
+                        name="termosAceitos"
+                        id="termosAceitos"
+                      ></ion-checkbox>
+                      <ion-label>
+                        Eu li e aceito os
+                        <a style="color: blue;" (click)="openTermosDeUso()">Termos de Uso</a> <br>
+                        <a style="color: blue;" (click)="openPoliticaDePrivacidade()">Política de Privacidade</a> <br> 
+                        <a style="color: blue;" (click)="contratodelocacao()">Contrato de locação de veículos</a ><br>.
+                      </ion-label>
+                    </ion-item>
+            
+                    <!-- Botão Próximo Passo -->
+                    <ion-button
+                      expand="block"
+                      [disabled]="!termosAceitos"
+                      (click)="next()"
+                      type="button"
+                    >
+                      Próximo Passo
+                    </ion-button>
+                  </form>
+                </ion-list>
+              </ion-card>
+            </ion-slide>
           </ion-list>
         </ion-card>
       </form>
@@ -365,6 +399,7 @@
                   id="contrato"
                   name="contrato"
                 ></ion-checkbox>
+                
               </div>
               
                 <div (click)="openPdf()">
